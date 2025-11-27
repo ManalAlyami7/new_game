@@ -618,7 +618,10 @@ function generateRandomPuzzle() {
 }
 
 function CodeGame() {
-  const [currentLang, setCurrentLang] = useState('ar');
+  const [currentLang, setCurrentLang] = useState(() => {
+    // Load saved language preference or default to 'ar'
+    return localStorage.getItem('smarthajj_lang') || 'ar';
+  });
   const [screen, setScreen] = useState('start');
   const [timeLeft, setTimeLeft] = useState(90);
   const [attemptsLeft, setAttemptsLeft] = useState(3);
@@ -679,6 +682,8 @@ function CodeGame() {
   useEffect(() => {
     document.documentElement.setAttribute('lang', currentLang);
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+    // Save language preference
+    localStorage.setItem('smarthajj_lang', currentLang);
   }, [currentLang]);
 
   useEffect(() => {
