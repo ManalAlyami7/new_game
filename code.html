@@ -205,7 +205,7 @@ body {
     height: 90vh;
     display: flex;
     flex-direction: column;
-    padding: 2vh 3vw;
+    padding: 1vh 3vw;
     overflow: hidden;
     align-items: center;
     justify-content: center;
@@ -226,8 +226,8 @@ body {
 }
 
 .game-hero {
-    font-size: 15vh;
-    margin-bottom: 2vh;
+    font-size: 10vh;
+    margin-bottom: 1vh;
     animation: float 4s ease-in-out infinite;
 }
 
@@ -237,48 +237,48 @@ body {
 }
 
 .game-title {
-    font-size: 6vh;
+    font-size: 5vh;
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 900;
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
     text-align: center;
 }
 
 .game-subtitle {
-    font-size: 2.5vh;
+    font-size: 2vh;
     color: #FF6B00;
     font-weight: 800;
-    margin-bottom: 4vh;
+    margin-bottom: 2vh;
     text-align: center;
     max-width: 70vw;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .difficulty-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2vw;
-    margin-bottom: 3vh;
+    margin-bottom: 2vh;
 }
 
 .difficulty-card {
     background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
-    border: 5px solid #FFD700;
-    border-radius: 25px;
-    padding: 3vh 2vw;
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 2vh 1.5vw;
     cursor: pointer;
     transition: all 0.4s ease;
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
     text-align: center;
-    min-width: 180px;
+    min-width: 150px;
 }
 
 .difficulty-card:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
     border-color: #FFA500;
 }
 
@@ -288,35 +288,35 @@ body {
 }
 
 .difficulty-icon {
-    font-size: 6vh;
-    margin-bottom: 1vh;
+    font-size: 5vh;
+    margin-bottom: 0.5vh;
 }
 
 .difficulty-name {
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 900;
     color: #FF6B00;
-    margin-bottom: 1vh;
+    margin-bottom: 0.5vh;
 }
 
 .difficulty-stats {
-    font-size: 1.5vh;
+    font-size: 1.4vh;
     color: #2d3748;
     font-weight: 700;
 }
 
 .name-input {
-    width: 50vw;
-    max-width: 600px;
-    padding: 2.5vh 3vw;
+    width: 45vw;
+    max-width: 500px;
+    padding: 1.8vh 2.5vw;
     border: 4px solid #FFD700;
     border-radius: 50px;
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 800;
     text-align: center;
-    margin: 2vh auto;
+    margin: 1.5vh auto;
     background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
-    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.3);
     transition: all 0.3s ease;
     font-family: inherit;
 }
@@ -324,27 +324,27 @@ body {
 .name-input:focus {
     outline: none;
     border-color: #FFA500;
-    box-shadow: 0 12px 40px rgba(255, 165, 0, 0.6);
-    transform: scale(1.03);
+    box-shadow: 0 10px 35px rgba(255, 165, 0, 0.6);
+    transform: scale(1.02);
 }
 
 .start-btn {
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     color: white;
     border: none;
-    padding: 2.5vh 5vw;
+    padding: 2vh 4vw;
     border-radius: 50px;
-    font-size: 3vh;
+    font-size: 2.5vh;
     font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 10px 40px rgba(255, 107, 157, 0.6);
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
     transition: all 0.3s ease;
     font-family: inherit;
 }
 
 .start-btn:hover {
-    transform: scale(1.1) translateY(-5px);
-    box-shadow: 0 15px 50px rgba(255, 107, 157, 0.8);
+    transform: scale(1.08) translateY(-4px);
+    box-shadow: 0 12px 40px rgba(255, 107, 157, 0.8);
 }
 
 .start-btn:disabled {
@@ -372,18 +372,18 @@ body {
     display: flex;
     justify-content: center;
     gap: 3vw;
-    margin-bottom: 3vh;
+    margin-bottom: 2vh;
 }
 
 .status-box {
     background: linear-gradient(135deg, #fff 0%, #FFF9F0 100%);
-    padding: 1.5vh 2.5vw;
+    padding: 1.2vh 2vw;
     border-radius: 50px;
     border: 3px solid #FFD700;
-    font-size: 2.2vh;
+    font-size: 2vh;
     font-weight: 900;
     color: #2d3748;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
     display: flex;
     align-items: center;
     gap: 1vw;
@@ -401,32 +401,32 @@ body {
 
 .code-container {
     background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
-    padding: 4vh 4vw;
-    border-radius: 30px;
-    border: 5px solid #FFD700;
-    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.4);
-    margin-bottom: 3vh;
+    padding: 2.5vh 3vw;
+    border-radius: 25px;
+    border: 4px solid #FFD700;
+    box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4);
+    margin-bottom: 2vh;
 }
 
 .code-display {
     display: flex;
     justify-content: center;
-    gap: 1.5vw;
-    margin-bottom: 3vh;
+    gap: 1.2vw;
+    margin-bottom: 0;
 }
 
 .code-digit {
-    width: 8vh;
-    height: 10vh;
+    width: 7vh;
+    height: 8.5vh;
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    border-radius: 20px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 6vh;
+    font-size: 5vh;
     font-weight: 900;
     color: white;
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
     animation: digitAppear 0.5s ease backwards;
 }
 
@@ -447,30 +447,30 @@ body {
 
 .clues-box {
     background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
-    padding: 3vh 3vw;
-    border-radius: 25px;
+    padding: 2vh 2.5vw;
+    border-radius: 22px;
     border: 4px solid #FFD700;
-    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
-    margin-bottom: 3vh;
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.3);
+    margin-bottom: 2vh;
     max-width: 600px;
 }
 
 .clues-title {
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 900;
     color: #FF6B00;
-    margin-bottom: 2vh;
+    margin-bottom: 1.5vh;
     text-align: center;
 }
 
 .clue-item {
-    font-size: 2vh;
+    font-size: 1.8vh;
     color: #2d3748;
     font-weight: 700;
-    margin-bottom: 1vh;
-    padding: 1vh 2vw;
+    margin-bottom: 0.8vh;
+    padding: 0.8vh 1.5vw;
     background: white;
-    border-radius: 15px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 1vw;
@@ -480,55 +480,55 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2vh;
+    gap: 1.5vh;
 }
 
 .code-input {
-    width: 40vw;
-    max-width: 400px;
-    padding: 2vh 3vw;
+    width: 35vw;
+    max-width: 350px;
+    padding: 1.5vh 2.5vw;
     border: 4px solid #FFD700;
     border-radius: 50px;
-    font-size: 4vh;
+    font-size: 3.5vh;
     font-weight: 900;
     text-align: center;
     background: white;
-    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.3);
     font-family: 'Courier New', monospace;
-    letter-spacing: 1vw;
+    letter-spacing: 0.8vw;
 }
 
 .code-input:focus {
     outline: none;
     border-color: #FFA500;
-    box-shadow: 0 12px 40px rgba(255, 165, 0, 0.6);
+    box-shadow: 0 10px 35px rgba(255, 165, 0, 0.6);
 }
 
 .submit-btn {
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
     border: none;
-    padding: 2vh 4vw;
+    padding: 1.5vh 3.5vw;
     border-radius: 50px;
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 6px 25px rgba(76, 175, 80, 0.5);
     transition: all 0.3s ease;
     font-family: inherit;
 }
 
 .submit-btn:hover {
-    transform: scale(1.1) translateY(-5px);
-    box-shadow: 0 12px 40px rgba(76, 175, 80, 0.7);
+    transform: scale(1.08) translateY(-4px);
+    box-shadow: 0 10px 35px rgba(76, 175, 80, 0.7);
 }
 
 .feedback-message {
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 900;
-    padding: 2vh 3vw;
-    border-radius: 20px;
-    margin-top: 2vh;
+    padding: 1.5vh 2.5vw;
+    border-radius: 18px;
+    margin-top: 1.5vh;
     text-align: center;
 }
 
@@ -554,8 +554,8 @@ body {
 }
 
 .result-hero {
-    font-size: 15vh;
-    margin-bottom: 2vh;
+    font-size: 12vh;
+    margin-bottom: 1.5vh;
     animation: celebrate 1s ease;
 }
 
@@ -566,7 +566,7 @@ body {
 }
 
 .result-title {
-    font-size: 5vh;
+    font-size: 4.5vh;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -580,32 +580,32 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2vw;
-    margin-bottom: 3vh;
+    margin-bottom: 2.5vh;
 }
 
 .stat-card {
     background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    padding: 2vh 2vw;
-    border-radius: 20px;
+    padding: 1.5vh 2vw;
+    border-radius: 18px;
     border: 3px solid #e9ecef;
     text-align: center;
-    min-width: 150px;
+    min-width: 130px;
 }
 
 .stat-icon {
-    font-size: 4vh;
-    margin-bottom: 1vh;
+    font-size: 3.5vh;
+    margin-bottom: 0.8vh;
 }
 
 .stat-value {
-    font-size: 3vh;
+    font-size: 2.8vh;
     font-weight: 900;
     color: #2d3748;
     margin-bottom: 0.5vh;
 }
 
 .stat-label {
-    font-size: 1.5vh;
+    font-size: 1.4vh;
     font-weight: 700;
     color: #64748b;
     text-transform: uppercase;
@@ -620,19 +620,19 @@ body {
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     color: white;
     border: none;
-    padding: 2vh 3vw;
+    padding: 1.8vh 3vw;
     border-radius: 50px;
-    font-size: 2.5vh;
+    font-size: 2.2vh;
     font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
+    box-shadow: 0 6px 25px rgba(255, 107, 157, 0.5);
     transition: all 0.3s ease;
     font-family: inherit;
 }
 
 .action-btn:hover {
-    transform: scale(1.1) translateY(-5px);
-    box-shadow: 0 12px 40px rgba(255, 107, 157, 0.7);
+    transform: scale(1.08) translateY(-4px);
+    box-shadow: 0 10px 35px rgba(255, 107, 157, 0.7);
 }
 
 .action-btn.secondary {
@@ -645,22 +645,49 @@ body {
 <script type="text/babel">
 const { useState, useEffect } = React;
 
-// Puzzle database
+// Puzzle database - each puzzle can have multiple correct answers
 const PUZZLES = {
   easy: [
-    { answer: "31529", clues: ["ar|الرقم الأول = 3", "en|First digit = 3", "ar|الرقم الأخير = 9", "en|Last digit = 9", "ar|مجموع الأرقام = 20", "en|Sum of digits = 20", "ar|يوجد رقم 5 في الوسط", "en|Contains 5 in middle"] },
-    { answer: "72418", clues: ["ar|الرقم الأول = 7", "en|First digit = 7", "ar|الرقم الأخير = 8", "en|Last digit = 8", "ar|مجموع الأرقام = 22", "en|Sum of digits = 22", "ar|الرقم الثاني = 2", "en|Second digit = 2"] },
-    { answer: "50639", clues: ["ar|يبدأ بـ 5", "en|Starts with 5", "ar|ينتهي بـ 9", "en|Ends with 9", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23", "ar|الرقم الثالث = 6", "en|Third digit = 6"] }
+    { 
+      answers: ["31529", "31925", "51329", "91325", "71523", "51723"],
+      clues: ["ar|الرقم الأول فردي", "en|First digit is odd", "ar|الرقم الأخير فردي", "en|Last digit is odd", "ar|مجموع الأرقام = 20", "en|Sum of digits = 20", "ar|يوجد رقم 5", "en|Contains digit 5"] 
+    },
+    { 
+      answers: ["72418", "74218", "72814", "74812", "82714", "84712"],
+      clues: ["ar|يبدأ برقم زوجي", "en|Starts with even digit", "ar|الرقم الأخير زوجي", "en|Last digit is even", "ar|مجموع الأرقام = 22", "en|Sum of digits = 22", "ar|يوجد رقم 7", "en|Contains digit 7"] 
+    },
+    { 
+      answers: ["50639", "50936", "60539", "90536", "30659", "30956"],
+      clues: ["ar|يوجد رقم 5", "en|Contains digit 5", "ar|يوجد رقم 9", "en|Contains digit 9", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23", "ar|يوجد صفر", "en|Contains zero"] 
+    }
   ],
   medium: [
-    { answer: "142857", clues: ["ar|يبدأ بـ 14", "en|Starts with 14", "ar|الرقم الأخير فردي", "en|Last digit is odd", "ar|مجموع الأرقام = 27", "en|Sum of digits = 27"] },
-    { answer: "931046", clues: ["ar|الرقم الأول = 9", "en|First digit = 9", "ar|يوجد صفر في الوسط", "en|Contains 0 in middle", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23"] },
-    { answer: "625831", clues: ["ar|يبدأ بـ 6", "en|Starts with 6", "ar|الرقم الأخير = 1", "en|Last digit = 1", "ar|مجموع الأرقام = 25", "en|Sum of digits = 25"] }
+    { 
+      answers: ["142857", "142758", "147852", "184752", "184725", "174825"],
+      clues: ["ar|يبدأ بـ 1", "en|Starts with 1", "ar|مجموع الأرقام = 27", "en|Sum of digits = 27", "ar|يوجد رقم 8", "en|Contains digit 8"] 
+    },
+    { 
+      answers: ["931046", "930146", "936041", "916043", "946031", "916034"],
+      clues: ["ar|يبدأ بـ 9", "en|Starts with 9", "ar|يوجد صفر", "en|Contains zero", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23"] 
+    },
+    { 
+      answers: ["625831", "628531", "621835", "685231", "685213", "682513"],
+      clues: ["ar|يبدأ بـ 6", "en|Starts with 6", "ar|مجموع الأرقام = 25", "en|Sum of digits = 25", "ar|ينتهي برقم فردي", "en|Ends with odd digit"] 
+    }
   ],
   hard: [
-    { answer: "7531462", clues: ["ar|يبدأ بـ 7", "en|Starts with 7", "ar|مجموع الأرقام = 28", "en|Sum of digits = 28"] },
-    { answer: "9241836", clues: ["ar|الرقم الأول = 9", "en|First digit = 9", "ar|مجموع الأرقام = 33", "en|Sum of digits = 33"] },
-    { answer: "8356124", clues: ["ar|يبدأ بـ 8", "en|Starts with 8", "ar|مجموع الأرقام = 29", "en|Sum of digits = 29"] }
+    { 
+      answers: ["7531462", "7532461", "7561432", "7562431", "7351462", "7352461"],
+      clues: ["ar|يبدأ بـ 7", "en|Starts with 7", "ar|مجموع الأرقام = 28", "en|Sum of digits = 28"] 
+    },
+    { 
+      answers: ["9241836", "9243816", "9261834", "9263814", "9841236", "9843216"],
+      clues: ["ar|يبدأ بـ 9", "en|Starts with 9", "ar|مجموع الأرقام = 33", "en|Sum of digits = 33"] 
+    },
+    { 
+      answers: ["8356124", "8351624", "8361524", "8365124", "8156324", "8165324"],
+      clues: ["ar|يبدأ بـ 8", "en|Starts with 8", "ar|مجموع الأرقام = 29", "en|Sum of digits = 29"] 
+    }
   ]
 };
 
@@ -793,7 +820,8 @@ function CodeGame() {
   };
 
   const checkAnswer = () => {
-    if (userInput === currentPuzzle.answer) {
+    // Check if answer matches any of the correct answers
+    if (currentPuzzle.answers.includes(userInput)) {
       const settings = difficultySettings[difficulty];
       const timeBonus = timeLeft * 10;
       const attemptBonus = attemptsLeft * 100;
@@ -893,7 +921,7 @@ function CodeGame() {
 
             <div className="code-container">
               <div className="code-display">
-                {currentPuzzle.answer.split('').map((digit, i) => (
+                {currentPuzzle.answers[0].split('').map((digit, i) => (
                   <div key={i} className="code-digit locked">🔒</div>
                 ))}
               </div>
@@ -915,10 +943,10 @@ function CodeGame() {
                 className="code-input"
                 placeholder={lang.inputPlaceholder}
                 value={userInput}
-                onChange={(e) => setUserInput(e.target.value.replace(/\D/g, '').slice(0, currentPuzzle.answer.length))}
-                maxLength={currentPuzzle.answer.length}
+                onChange={(e) => setUserInput(e.target.value.replace(/\D/g, '').slice(0, currentPuzzle.answers[0].length))}
+                maxLength={currentPuzzle.answers[0].length}
               />
-              <button className="submit-btn" onClick={checkAnswer} disabled={userInput.length !== currentPuzzle.answer.length}>
+              <button className="submit-btn" onClick={checkAnswer} disabled={userInput.length !== currentPuzzle.answers[0].length}>
                 {lang.submitBtn}
               </button>
             </div>
