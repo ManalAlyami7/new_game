@@ -394,6 +394,8 @@ function SmartHajjMenu() {
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
     // Save language preference
     localStorage.setItem('smarthajj_lang', currentLang);
+    console.log('Language saved to localStorage:', currentLang);
+    console.log('localStorage value:', localStorage.getItem('smarthajj_lang'));
   }, [currentLang]);
 
   useEffect(() => {
@@ -434,6 +436,20 @@ function SmartHajjMenu() {
           <div className="selection-hero">{lang.selectionHero}</div>
           <div className="selection-title">{lang.selectionTitle}</div>
           <div className="selection-subtitle">{lang.selectionSubtitle}</div>
+          <div style={{
+            fontSize: '13px',
+            color: '#94A3B8',
+            fontWeight: '700',
+            marginBottom: '20px',
+            textAlign: 'center',
+            padding: '8px 20px',
+            background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%)',
+            borderRadius: '50px',
+            border: '2px solid rgba(255, 215, 0, 0.3)',
+            display: 'inline-block'
+          }}>
+            {currentLang === 'ar' ? '⭐ حصرية لنظام Smart Hajj - فقط ليوم العرض' : '⭐ Exclusive to Smart Hajj - Just for Presentation Day'}
+          </div>
 
           <div className="games-container">
             <a href="sort.html" className="game-card">
