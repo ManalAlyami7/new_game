@@ -756,7 +756,9 @@ const ALL_CAMPAIGNS = [
 function HajjGame() {
   const [currentLang, setCurrentLang] = useState(() => {
     // Load saved language preference or default to 'ar'
-    return localStorage.getItem('smarthajj_lang') || 'ar';
+    const savedLang = localStorage.getItem('smarthajj_lang') || 'ar';
+    console.log('Sort game loading language from localStorage:', savedLang);
+    return savedLang;
   });
   const [screen, setScreen] = useState('start');
   const [timeLeft, setTimeLeft] = useState(60);
