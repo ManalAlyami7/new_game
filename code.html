@@ -620,7 +620,9 @@ function generateRandomPuzzle() {
 function CodeGame() {
   const [currentLang, setCurrentLang] = useState(() => {
     // Load saved language preference or default to 'ar'
-    return localStorage.getItem('smarthajj_lang') || 'ar';
+    const savedLang = localStorage.getItem('smarthajj_lang') || 'ar';
+    console.log('Code game loading language from localStorage:', savedLang);
+    return savedLang;
   });
   const [screen, setScreen] = useState('start');
   const [timeLeft, setTimeLeft] = useState(90);
