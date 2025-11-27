@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Smart Hajj - فك الشفرة 🔐</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+}
+
+body {
+    font-family: 'Cairo', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #FEF7E5 0%, #FFF8DC 50%, #FFEFD5 100%);
+    background-attachment: fixed;
+}
+
+.particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #FFD700, #FFA500);
+    border-radius: 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+    animation: rise 6s ease-in infinite;
+}
+
+@keyframes rise {
+    0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-100px) scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+.game-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+/* TOP BAR */
+.top-bar {
+    background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+    padding: 0 3vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    border-bottom: 3px solid #FFD700;
+    height: 10vh;
+    flex-shrink: 0;
+}
+
+.top-bar::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+    background-size: 200% 100%;
+    animation: shimmerBorder 3s linear infinite;
+}
+
+@keyframes shimmerBorder {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.brand-icon {
+    font-size: 4vh;
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+}
+
+.brand-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vh;
+}
+
+.brand-text {
+    font-size: 3vh;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.brand-tagline {
+    font-size: 1.3vh;
+    color: #CBD5E0;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.lang-toggle {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: none;
+    color: white;
+    padding: 1.2vh 2vw;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.6vh;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.lang-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.header-shield {
+    width: 5vh;
+    height: 5vh;
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5vh;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.back-to-menu {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 3px solid #FFD700;
+    color: #FF6B00;
+    padding: 1.5vh 3vw;
+    border-radius: 50px;
+    font-size: 2vh;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    position: fixed;
+    bottom: 3vh;
+    left: 3vw;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.back-to-menu:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    border-color: #FFA500;
+}
+
+[dir="rtl"] .back-to-menu {
+    left: auto;
+    right: 3vw;
+}
+
+.main-content {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2vh 3vw;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+/* START SCREEN */
+.start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.game-hero {
+    font-size: 15vh;
+    margin-bottom: 2vh;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+.game-title {
+    font-size: 6vh;
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+
+.game-subtitle {
+    font-size: 2.5vh;
+    color: #FF6B00;
+    font-weight: 800;
+    margin-bottom: 4vh;
+    text-align: center;
+    max-width: 70vw;
+    line-height: 1.5;
+}
+
+.difficulty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    margin-bottom: 3vh;
+}
+
+.difficulty-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+    border: 5px solid #FFD700;
+    border-radius: 25px;
+    padding: 3vh 2vw;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+    text-align: center;
+    min-width: 180px;
+}
+
+.difficulty-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+    border-color: #FFA500;
+}
+
+.difficulty-card.selected {
+    border-color: #4CAF50;
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+}
+
+.difficulty-icon {
+    font-size: 6vh;
+    margin-bottom: 1vh;
+}
+
+.difficulty-name {
+    font-size: 2.5vh;
+    font-weight: 900;
+    color: #FF6B00;
+    margin-bottom: 1vh;
+}
+
+.difficulty-stats {
+    font-size: 1.5vh;
+    color: #2d3748;
+    font-weight: 700;
+}
+
+.name-input {
+    width: 50vw;
+    max-width: 600px;
+    padding: 2.5vh 3vw;
+    border: 4px solid #FFD700;
+    border-radius: 50px;
+    font-size: 2.5vh;
+    font-weight: 800;
+    text-align: center;
+    margin: 2vh auto;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: #FFA500;
+    box-shadow: 0 12px 40px rgba(255, 165, 0, 0.6);
+    transform: scale(1.03);
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    color: white;
+    border: none;
+    padding: 2.5vh 5vw;
+    border-radius: 50px;
+    font-size: 3vh;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 10px 40px rgba(255, 107, 157, 0.6);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.start-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 15px 50px rgba(255, 107, 157, 0.8);
+}
+
+.start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* GAME SCREEN */
+.game-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.6s ease;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.game-status {
+    display: flex;
+    justify-content: center;
+    gap: 3vw;
+    margin-bottom: 3vh;
+}
+
+.status-box {
+    background: linear-gradient(135deg, #fff 0%, #FFF9F0 100%);
+    padding: 1.5vh 2.5vw;
+    border-radius: 50px;
+    border: 3px solid #FFD700;
+    font-size: 2.2vh;
+    font-weight: 900;
+    color: #2d3748;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.status-box.urgent {
+    border-color: #F44336;
+    animation: urgentPulse 0.6s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.code-container {
+    background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+    padding: 4vh 4vw;
+    border-radius: 30px;
+    border: 5px solid #FFD700;
+    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.4);
+    margin-bottom: 3vh;
+}
+
+.code-display {
+    display: flex;
+    justify-content: center;
+    gap: 1.5vw;
+    margin-bottom: 3vh;
+}
+
+.code-digit {
+    width: 8vh;
+    height: 10vh;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6vh;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    animation: digitAppear 0.5s ease backwards;
+}
+
+.code-digit:nth-child(1) { animation-delay: 0.1s; }
+.code-digit:nth-child(2) { animation-delay: 0.2s; }
+.code-digit:nth-child(3) { animation-delay: 0.3s; }
+.code-digit:nth-child(4) { animation-delay: 0.4s; }
+.code-digit:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes digitAppear {
+    from { opacity: 0; transform: scale(0) rotate(-180deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.code-digit.locked {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+}
+
+.clues-box {
+    background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
+    padding: 3vh 3vw;
+    border-radius: 25px;
+    border: 4px solid #FFD700;
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+    margin-bottom: 3vh;
+    max-width: 600px;
+}
+
+.clues-title {
+    font-size: 2.5vh;
+    font-weight: 900;
+    color: #FF6B00;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+
+.clue-item {
+    font-size: 2vh;
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 1vh;
+    padding: 1vh 2vw;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+}
+
+.code-input {
+    width: 40vw;
+    max-width: 400px;
+    padding: 2vh 3vw;
+    border: 4px solid #FFD700;
+    border-radius: 50px;
+    font-size: 4vh;
+    font-weight: 900;
+    text-align: center;
+    background: white;
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1vw;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #FFA500;
+    box-shadow: 0 12px 40px rgba(255, 165, 0, 0.6);
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    color: white;
+    border: none;
+    padding: 2vh 4vw;
+    border-radius: 50px;
+    font-size: 2.5vh;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.submit-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 12px 40px rgba(76, 175, 80, 0.7);
+}
+
+.feedback-message {
+    font-size: 2.5vh;
+    font-weight: 900;
+    padding: 2vh 3vw;
+    border-radius: 20px;
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.feedback-message.correct {
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+    color: #2E7D32;
+    border: 3px solid #4CAF50;
+}
+
+.feedback-message.wrong {
+    background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+    color: #C62828;
+    border: 3px solid #F44336;
+}
+
+/* FINISH SCREEN */
+.finish-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease;
+}
+
+.result-hero {
+    font-size: 15vh;
+    margin-bottom: 2vh;
+    animation: celebrate 1s ease;
+}
+
+@keyframes celebrate {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.2) rotate(-10deg); }
+    75% { transform: scale(1.2) rotate(10deg); }
+}
+
+.result-title {
+    font-size: 5vh;
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    margin-bottom: 3vh;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    padding: 2vh 2vw;
+    border-radius: 20px;
+    border: 3px solid #e9ecef;
+    text-align: center;
+    min-width: 150px;
+}
+
+.stat-icon {
+    font-size: 4vh;
+    margin-bottom: 1vh;
+}
+
+.stat-value {
+    font-size: 3vh;
+    font-weight: 900;
+    color: #2d3748;
+    margin-bottom: 0.5vh;
+}
+
+.stat-label {
+    font-size: 1.5vh;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 2vw;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    color: white;
+    border: none;
+    padding: 2vh 3vw;
+    border-radius: 50px;
+    font-size: 2.5vh;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.action-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 12px 40px rgba(255, 107, 157, 0.7);
+}
+
+.action-btn.secondary {
+    background: white;
+    color: #FF6B9D;
+    border: 3px solid #FFD700;
+}
+</style>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// Puzzle database
+const PUZZLES = {
+  easy: [
+    { answer: "31529", clues: ["ar|الرقم الأول = 3", "en|First digit = 3", "ar|الرقم الأخير = 9", "en|Last digit = 9", "ar|مجموع الأرقام = 20", "en|Sum of digits = 20", "ar|يوجد رقم 5 في الوسط", "en|Contains 5 in middle"] },
+    { answer: "72418", clues: ["ar|الرقم الأول = 7", "en|First digit = 7", "ar|الرقم الأخير = 8", "en|Last digit = 8", "ar|مجموع الأرقام = 22", "en|Sum of digits = 22", "ar|الرقم الثاني = 2", "en|Second digit = 2"] },
+    { answer: "50639", clues: ["ar|يبدأ بـ 5", "en|Starts with 5", "ar|ينتهي بـ 9", "en|Ends with 9", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23", "ar|الرقم الثالث = 6", "en|Third digit = 6"] }
+  ],
+  medium: [
+    { answer: "142857", clues: ["ar|يبدأ بـ 14", "en|Starts with 14", "ar|الرقم الأخير فردي", "en|Last digit is odd", "ar|مجموع الأرقام = 27", "en|Sum of digits = 27"] },
+    { answer: "931046", clues: ["ar|الرقم الأول = 9", "en|First digit = 9", "ar|يوجد صفر في الوسط", "en|Contains 0 in middle", "ar|مجموع الأرقام = 23", "en|Sum of digits = 23"] },
+    { answer: "625831", clues: ["ar|يبدأ بـ 6", "en|Starts with 6", "ar|الرقم الأخير = 1", "en|Last digit = 1", "ar|مجموع الأرقام = 25", "en|Sum of digits = 25"] }
+  ],
+  hard: [
+    { answer: "7531462", clues: ["ar|يبدأ بـ 7", "en|Starts with 7", "ar|مجموع الأرقام = 28", "en|Sum of digits = 28"] },
+    { answer: "9241836", clues: ["ar|الرقم الأول = 9", "en|First digit = 9", "ar|مجموع الأرقام = 33", "en|Sum of digits = 33"] },
+    { answer: "8356124", clues: ["ar|يبدأ بـ 8", "en|Starts with 8", "ar|مجموع الأرقام = 29", "en|Sum of digits = 29"] }
+  ]
+};
+
+function CodeGame() {
+  const [currentLang, setCurrentLang] = useState('ar');
+  const [screen, setScreen] = useState('start');
+  const [difficulty, setDifficulty] = useState('easy');
+  const [playerName, setPlayerName] = useState('');
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [attemptsLeft, setAttemptsLeft] = useState(3);
+  const [userInput, setUserInput] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [currentPuzzle, setCurrentPuzzle] = useState(null);
+  const [score, setScore] = useState(0);
+
+  const t = {
+    ar: {
+      brandName: "Smart Hajj",
+      tagline: "نظام الحماية الذكي",
+      langBtn: "EN",
+      gameHero: "🔐",
+      gameTitle: "فك الشفرة",
+      gameSubtitle: "استخدم الأدلة لكشف رقم رخصة الحملة الحقيقي!",
+      easy: "🟢 سهل",
+      easyStats: "5 أرقام | 4 أدلة | 3 محاولات",
+      medium: "🟡 متوسط",
+      mediumStats: "6 أرقام | 3 أدلة | 2 محاولات",
+      hard: "🔴 صعب",
+      hardStats: "7 أرقام | 2 أدلة | محاولة واحدة",
+      namePlaceholder: "✨ اسمك هنا",
+      startBtn: "🚀 ابدأ اللعبة",
+      timer: "⏰ الوقت:",
+      attempts: "❤️ المحاولات:",
+      cluesTitle: "💡 الأدلة المتاحة",
+      inputPlaceholder: "أدخل الرقم...",
+      submitBtn: "✓ تحقق من الإجابة",
+      correct: "✅ صحيح! رائع!",
+      wrong: "❌ خطأ! حاول مرة أخرى",
+      resultHero: "🎉",
+      resultTitle: "مبروك! فككت الشفرة!",
+      timeUsed: "⏱️ الوقت المستخدم",
+      attemptsUsed: "🎯 المحاولات",
+      finalScore: "⭐ النقاط",
+      playAgainBtn: "🔄 العب مرة أخرى"
+    },
+    en: {
+      brandName: "Smart Hajj",
+      tagline: "SMART PROTECTION SYSTEM",
+      langBtn: "AR",
+      gameHero: "🔐",
+      gameTitle: "Code Breaker",
+      gameSubtitle: "Use the clues to discover the real license number!",
+      easy: "🟢 Easy",
+      easyStats: "5 digits | 4 clues | 3 attempts",
+      medium: "🟡 Medium",
+      mediumStats: "6 digits | 3 clues | 2 attempts",
+      hard: "🔴 Hard",
+      hardStats: "7 digits | 2 clues | 1 attempt",
+      namePlaceholder: "✨ Your name here",
+      startBtn: "🚀 Start Game",
+      timer: "⏰ Time:",
+      attempts: "❤️ Attempts:",
+      cluesTitle: "💡 Available Clues",
+      inputPlaceholder: "Enter number...",
+      submitBtn: "✓ Check Answer",
+      correct: "✅ Correct! Amazing!",
+      wrong: "❌ Wrong! Try again",
+      resultHero: "🎉",
+      resultTitle: "Congratulations! You cracked the code!",
+      timeUsed: "⏱️ Time Used",
+      attemptsUsed: "🎯 Attempts",
+      finalScore: "⭐ Score",
+      playAgainBtn: "🔄 Play Again"
+    }
+  };
+
+  const lang = t[currentLang];
+
+  const difficultySettings = {
+    easy: { time: 60, attempts: 3, digits: 5 },
+    medium: { time: 45, attempts: 2, digits: 6 },
+    hard: { time: 30, attempts: 1, digits: 7 }
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', currentLang);
+    document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  }, [currentLang]);
+
+  useEffect(() => {
+    const particles = [];
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      document.body.appendChild(particle);
+      particles.push(particle);
+    }
+    return () => particles.forEach(p => p.remove());
+  }, []);
+
+  useEffect(() => {
+    if (screen === 'game' && timeLeft > 0 && attemptsLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0 && screen === 'game') {
+      setScreen('finish');
+    }
+  }, [timeLeft, screen, attemptsLeft]);
+
+  const startGame = () => {
+    if (!playerName.trim()) {
+      alert(currentLang === 'ar' ? 'اكتب اسمك للبدء!' : 'Enter your name to start!');
+      return;
+    }
+
+    const settings = difficultySettings[difficulty];
+    const puzzleSet = PUZZLES[difficulty];
+    const randomPuzzle = puzzleSet[Math.floor(Math.random() * puzzleSet.length)];
+    
+    setCurrentPuzzle(randomPuzzle);
+    setTimeLeft(settings.time);
+    setAttemptsLeft(settings.attempts);
+    setUserInput('');
+    setFeedback('');
+    setScore(0);
+    setScreen('game');
+  };
+
+  const checkAnswer = () => {
+    if (userInput === currentPuzzle.answer) {
+      const settings = difficultySettings[difficulty];
+      const timeBonus = timeLeft * 10;
+      const attemptBonus = attemptsLeft * 100;
+      const difficultyBonus = difficulty === 'hard' ? 500 : difficulty === 'medium' ? 300 : 100;
+      setScore(timeBonus + attemptBonus + difficultyBonus);
+      setFeedback('correct');
+      setTimeout(() => setScreen('finish'), 2000);
+    } else {
+      setAttemptsLeft(attemptsLeft - 1);
+      setFeedback('wrong');
+      if (attemptsLeft - 1 === 0) {
+        setTimeout(() => setScreen('finish'), 2000);
+      } else {
+        setTimeout(() => setFeedback(''), 2000);
+      }
+    }
+  };
+
+  const getClues = () => {
+    if (!currentPuzzle) return [];
+    return currentPuzzle.clues.filter(clue => clue.startsWith(currentLang)).map(clue => clue.split('|')[1]);
+  };
+
+  return (
+    <div className="game-wrapper">
+      <div className="top-bar">
+        <div className="brand-logo">
+          <div className="brand-icon">🕋</div>
+          <div className="brand-content">
+            <div className="brand-text">{lang.brandName}</div>
+            <div className="brand-tagline">{lang.tagline}</div>
+          </div>
+        </div>
+        <div className="header-actions">
+          <div className="header-shield">🛡️</div>
+          <button className="lang-toggle" onClick={() => setCurrentLang(currentLang === 'ar' ? 'en' : 'ar')}>
+            <span>🌐</span>
+            <span>{lang.langBtn}</span>
+          </button>
+        </div>
+      </div>
+
+      <a href="index.html" className="back-to-menu">
+        <span>←</span>
+        <span>{currentLang === 'ar' ? '🏠 القائمة الرئيسية' : '🏠 Main Menu'}</span>
+      </a>
+
+      <div className="main-content">
+        {screen === 'start' && (
+          <div className="start-screen">
+            <div className="game-hero">{lang.gameHero}</div>
+            <div className="game-title">{lang.gameTitle}</div>
+            <div className="game-subtitle">{lang.gameSubtitle}</div>
+
+            <div className="difficulty-grid">
+              <div className={`difficulty-card ${difficulty === 'easy' ? 'selected' : ''}`} onClick={() => setDifficulty('easy')}>
+                <div className="difficulty-icon">🟢</div>
+                <div className="difficulty-name">{lang.easy}</div>
+                <div className="difficulty-stats">{lang.easyStats}</div>
+              </div>
+              <div className={`difficulty-card ${difficulty === 'medium' ? 'selected' : ''}`} onClick={() => setDifficulty('medium')}>
+                <div className="difficulty-icon">🟡</div>
+                <div className="difficulty-name">{lang.medium}</div>
+                <div className="difficulty-stats">{lang.mediumStats}</div>
+              </div>
+              <div className={`difficulty-card ${difficulty === 'hard' ? 'selected' : ''}`} onClick={() => setDifficulty('hard')}>
+                <div className="difficulty-icon">🔴</div>
+                <div className="difficulty-name">{lang.hard}</div>
+                <div className="difficulty-stats">{lang.hardStats}</div>
+              </div>
+            </div>
+
+            <input 
+              type="text" 
+              className="name-input" 
+              placeholder={lang.namePlaceholder}
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              maxLength={30}
+            />
+            <button className="start-btn" onClick={startGame}>{lang.startBtn}</button>
+          </div>
+        )}
+
+        {screen === 'game' && (
+          <div className="game-screen">
+            <div className="game-status">
+              <div className={`status-box ${timeLeft <= 10 ? 'urgent' : ''}`}>
+                <span>{lang.timer}</span>
+                <span>{timeLeft}s</span>
+              </div>
+              <div className="status-box">
+                <span>{lang.attempts}</span>
+                <span>{'❤️'.repeat(attemptsLeft)}</span>
+              </div>
+            </div>
+
+            <div className="code-container">
+              <div className="code-display">
+                {currentPuzzle.answer.split('').map((digit, i) => (
+                  <div key={i} className="code-digit locked">🔒</div>
+                ))}
+              </div>
+            </div>
+
+            <div className="clues-box">
+              <div className="clues-title">{lang.cluesTitle}</div>
+              {getClues().map((clue, i) => (
+                <div key={i} className="clue-item">
+                  <span>💡</span>
+                  <span>{clue}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="input-section">
+              <input 
+                type="text" 
+                className="code-input"
+                placeholder={lang.inputPlaceholder}
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value.replace(/\D/g, '').slice(0, currentPuzzle.answer.length))}
+                maxLength={currentPuzzle.answer.length}
+              />
+              <button className="submit-btn" onClick={checkAnswer} disabled={userInput.length !== currentPuzzle.answer.length}>
+                {lang.submitBtn}
+              </button>
+            </div>
+
+            {feedback && (
+              <div className={`feedback-message ${feedback}`}>
+                {feedback === 'correct' ? lang.correct : lang.wrong}
+              </div>
+            )}
+          </div>
+        )}
+
+        {screen === 'finish' && (
+          <div className="finish-screen">
+            <div className="result-hero">{lang.resultHero}</div>
+            <div className="result-title">{lang.resultTitle}</div>
+
+            <div className="result-stats">
+              <div className="stat-card">
+                <div className="stat-icon">⏱️</div>
+                <div className="stat-value">{difficultySettings[difficulty].time - timeLeft}s</div>
+                <div className="stat-label">{lang.timeUsed}</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">🎯</div>
+                <div className="stat-value">{difficultySettings[difficulty].attempts - attemptsLeft + 1}</div>
+                <div className="stat-label">{lang.attemptsUsed}</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">⭐</div>
+                <div className="stat-value">{score}</div>
+                <div className="stat-label">{lang.finalScore}</div>
+              </div>
+            </div>
+
+            <div className="action-buttons">
+              <button className="action-btn" onClick={() => setScreen('start')}>
+                {lang.playAgainBtn}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.render(<CodeGame />, document.getElementById('app'));
+</script>
+</body>
+</html>
