@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Smart Hajj Games 🎮</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+}
+
+body {
+    font-family: 'Cairo', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #FEF7E5 0%, #FFF8DC 50%, #FFEFD5 100%);
+    background-attachment: fixed;
+}
+
+.particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #FFD700, #FFA500);
+    border-radius: 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
+    animation: rise 6s ease-in infinite;
+}
+
+@keyframes rise {
+    0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-100px) scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+.game-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.top-bar {
+    background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+    padding: 0 3vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    border-bottom: 3px solid #FFD700;
+    height: 10vh;
+    flex-shrink: 0;
+}
+
+.top-bar::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+    background-size: 200% 100%;
+    animation: shimmerBorder 3s linear infinite;
+}
+
+@keyframes shimmerBorder {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.brand-icon {
+    font-size: 4vh;
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.4));
+}
+
+.brand-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vh;
+}
+
+.brand-text {
+    font-size: 3vh;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.brand-tagline {
+    font-size: 1.3vh;
+    color: #CBD5E0;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.lang-toggle {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: none;
+    color: white;
+    padding: 1.2vh 2vw;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.6vh;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.lang-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.header-shield {
+    width: 5vh;
+    height: 5vh;
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5vh;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.main-content {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2vh 3vw;
+    overflow: hidden;
+}
+
+.game-selection-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.selection-hero {
+    font-size: 10vh;
+    margin-bottom: 2vh;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.selection-title {
+    font-size: 5vh;
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    margin-bottom: 1.5vh;
+    text-align: center;
+}
+
+.selection-subtitle {
+    font-size: 2.5vh;
+    color: #FF6B00;
+    font-weight: 800;
+    margin-bottom: 4vh;
+    text-align: center;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3vw;
+    width: 80%;
+    max-width: 900px;
+}
+
+.game-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+    border: 5px solid #FFD700;
+    border-radius: 30px;
+    padding: 3vh 2vw;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 10px 35px rgba(255, 215, 0, 0.4);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: cardAppear 0.6s ease backwards;
+    text-decoration: none;
+    display: block;
+}
+
+.game-card:nth-child(1) { animation-delay: 0.1s; }
+.game-card:nth-child(2) { animation-delay: 0.2s; }
+
+@keyframes cardAppear {
+    from { opacity: 0; transform: scale(0.8) rotate(-10deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+}
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 50px rgba(255, 215, 0, 0.6);
+    border-color: #FFA500;
+}
+
+.game-card:active {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.game-icon {
+    font-size: 10vh;
+    margin-bottom: 2vh;
+    animation: gameIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes gameIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.game-card:hover .game-icon {
+    animation: gameIconBounce 0.6s ease;
+}
+
+@keyframes gameIconBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2) rotate(10deg); }
+}
+
+.game-name {
+    font-size: 3.5vh;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5vh;
+}
+
+.game-description {
+    font-size: 1.8vh;
+    color: #FF6B00;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 2vh;
+}
+
+.game-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vh;
+    margin-bottom: 2vh;
+}
+
+.game-feature {
+    font-size: 1.5vh;
+    color: #2d3748;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vw;
+}
+
+.game-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    color: white;
+    padding: 0.8vh 1.5vw;
+    border-radius: 50px;
+    font-size: 1.4vh;
+    font-weight: 900;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.game-badge.new {
+    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@media (max-width: 900px) {
+    .games-grid {
+        width: 90%;
+    }
+    
+    .game-card {
+        padding: 2.5vh 2vw;
+    }
+    
+    .game-icon {
+        font-size: 8vh;
+    }
+    
+    .game-name {
+        font-size: 3vh;
+    }
+}
+</style>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function SmartHajjMenu() {
+  const [currentLang, setCurrentLang] = useState('ar');
+
+  const t = {
+    ar: {
+      brandName: "Smart Hajj",
+      tagline: "نظام الحماية الذكي",
+      langBtn: "EN",
+      selectionHero: "🎮",
+      selectionTitle: "اختر لعبتك!",
+      selectionSubtitle: "جرب مهاراتك في حماية الحجاج",
+      sortName: "فرّز واحمي",
+      sortIcon: "🎯",
+      sortDescription: "اسحب البطاقات للمكان الصحيح",
+      sortFeature1: "⚡ لعبة سريعة وممتعة",
+      sortFeature2: "🎮 سحب وإفلات تفاعلي",
+      sortFeature3: "🏆 8 سيناريوهات عشوائية",
+      sortBadge: "الأكثر شعبية",
+      codeName: "فك الشفرة",
+      codeIcon: "🔐",
+      codeDescription: "حل اللغز واكتشف رقم الرخصة",
+      codeFeature1: "🧩 تحدي ذهني مشوق",
+      codeFeature2: "💡 أدلة ذكية لحل اللغز",
+      codeFeature3: "🎯 3 مستويات صعوبة",
+      codeBadge: "جديد"
+    },
+    en: {
+      brandName: "Smart Hajj",
+      tagline: "SMART PROTECTION SYSTEM",
+      langBtn: "AR",
+      selectionHero: "🎮",
+      selectionTitle: "Choose Your Game!",
+      selectionSubtitle: "Test your skills in protecting pilgrims",
+      sortName: "Sort & Protect",
+      sortIcon: "🎯",
+      sortDescription: "Drag cards to the correct zone",
+      sortFeature1: "⚡ Fast and fun gameplay",
+      sortFeature2: "🎮 Interactive drag & drop",
+      sortFeature3: "🏆 8 random scenarios",
+      sortBadge: "Most Popular",
+      codeName: "Code Breaker",
+      codeIcon: "🔐",
+      codeDescription: "Solve the puzzle to find the license",
+      codeFeature1: "🧩 Exciting mental challenge",
+      codeFeature2: "💡 Smart clues to solve",
+      codeFeature3: "🎯 3 difficulty levels",
+      codeBadge: "New"
+    }
+  };
+
+  const lang = t[currentLang];
+
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', currentLang);
+    document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  }, [currentLang]);
+
+  useEffect(() => {
+    const particles = [];
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (Math.random() * 4 + 5) + 's';
+      document.body.appendChild(particle);
+      particles.push(particle);
+    }
+    return () => particles.forEach(p => p.remove());
+  }, []);
+
+  return (
+    <div className="game-wrapper">
+      <div className="top-bar">
+        <div className="brand-logo">
+          <div className="brand-icon">🕋</div>
+          <div className="brand-content">
+            <div className="brand-text">{lang.brandName}</div>
+            <div className="brand-tagline">{lang.tagline}</div>
+          </div>
+        </div>
+        <div className="header-actions">
+          <div className="header-shield">🛡️</div>
+          <button className="lang-toggle" onClick={() => setCurrentLang(currentLang === 'ar' ? 'en' : 'ar')}>
+            <span>🌐</span>
+            <span>{lang.langBtn}</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="main-content">
+        <div className="game-selection-screen">
+          <div className="selection-hero">{lang.selectionHero}</div>
+          <div className="selection-title">{lang.selectionTitle}</div>
+          <div className="selection-subtitle">{lang.selectionSubtitle}</div>
+
+          <div className="games-grid">
+            <a href="sort.html" className="game-card">
+              <div className="game-icon">{lang.sortIcon}</div>
+              <div className="game-name">{lang.sortName}</div>
+              <div className="game-description">{lang.sortDescription}</div>
+              <div className="game-features">
+                <div className="game-feature">{lang.sortFeature1}</div>
+                <div className="game-feature">{lang.sortFeature2}</div>
+                <div className="game-feature">{lang.sortFeature3}</div>
+              </div>
+              <div className="game-badge">{lang.sortBadge}</div>
+            </a>
+
+            <a href="code.html" className="game-card">
+              <div className="game-icon">{lang.codeIcon}</div>
+              <div className="game-name">{lang.codeName}</div>
+              <div className="game-description">{lang.codeDescription}</div>
+              <div className="game-features">
+                <div className="game-feature">{lang.codeFeature1}</div>
+                <div className="game-feature">{lang.codeFeature2}</div>
+                <div className="game-feature">{lang.codeFeature3}</div>
+              </div>
+              <div className="game-badge new">{lang.codeBadge}</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.render(<SmartHajjMenu />, document.getElementById('app'));
+</script>
+</body>
+</html>
