@@ -583,55 +583,37 @@ function generateRandomPuzzle() {
   const answer = digits.join('');
   const sum = digits.reduce((a, b) => a + b, 0);
   
-  // Create clues: give 3 specific positions + sum
-  // This guarantees only ONE possible answer
-  const clueTypes = [
-    // Type 1: positions 1, 5, 2 + sum
-    {
-      clues: [
-        `ar|الرقم الأول = ${digits[0]}`,
-        `en|First digit = ${digits[0]}`,
-        `ar|الرقم الأخير = ${digits[4]}`,
-        `en|Last digit = ${digits[4]}`,
-        `ar|الرقم الثاني = ${digits[1]}`,
-        `en|Second digit = ${digits[1]}`,
-        `ar|مجموع كل الأرقام = ${sum}`,
-        `en|Sum of all digits = ${sum}`
-      ]
-    },
-    // Type 2: positions 1, 5, 3 + sum
-    {
-      clues: [
-        `ar|الرقم الأول = ${digits[0]}`,
-        `en|First digit = ${digits[0]}`,
-        `ar|الرقم الأخير = ${digits[4]}`,
-        `en|Last digit = ${digits[4]}`,
-        `ar|الرقم الثالث = ${digits[2]}`,
-        `en|Third digit = ${digits[2]}`,
-        `ar|مجموع كل الأرقام = ${sum}`,
-        `en|Sum of all digits = ${sum}`
-      ]
-    },
-    // Type 3: positions 1, 5, 4 + sum
-    {
-      clues: [
-        `ar|الرقم الأول = ${digits[0]}`,
-        `en|First digit = ${digits[0]}`,
-        `ar|الرقم الأخير = ${digits[4]}`,
-        `en|Last digit = ${digits[4]}`,
-        `ar|الرقم الرابع = ${digits[3]}`,
-        `en|Fourth digit = ${digits[3]}`,
-        `ar|مجموع كل الأرقام = ${sum}`,
-        `en|Sum of all digits = ${sum}`
-      ]
+  // Generate all possible valid answers for this puzzle
+  const generateAllAnswers = (pos1Val, pos5Val, pos2Val, targetSum) => {
+    const validAnswers = [];
+    // Positions 3 and 4 are unknown, must sum to: targetSum - pos1Val - pos2Val - pos5Val
+    const remainingSum = targetSum - pos1Val - pos2Val - pos5Val;
+    
+    for (let pos3 = 0; pos3 <= 9; pos3++) {
+      const pos4 = remainingSum - pos3;
+      if (pos4 >= 0 && pos4 <= 9) {
+        validAnswers.push(`${pos1Val}${pos2Val}${pos3}${pos4}${pos5Val}`);
+      }
     }
-  ];
+    return validAnswers;
+  };
   
-  const selectedClueType = clueTypes[Math.floor(Math.random() * clueTypes.length)];
+  // Calculate all valid answers
+  const allValidAnswers = generateAllAnswers(digits[0], digits[4], digits[1], sum);
   
   return {
-    answers: [answer],
-    clues: selectedClueType.clues
+    answers: allValidAnswers,
+    originalAnswer: answer,
+    clues: [
+      `ar|الرقم الأول = ${digits[0]}`,
+      `en|First digit = ${digits[0]}`,
+      `ar|الرقم الأخير = ${digits[4]}`,
+      `en|Last digit = ${digits[4]}`,
+      `ar|الرقم الثاني = ${digits[1]}`,
+      `en|Second digit = ${digits[1]}`,
+      `ar|مجموع كل الأرقام = ${sum}`,
+      `en|Sum of all digits = ${sum}`
+    ]
   };
 }
 
@@ -666,7 +648,7 @@ function CodeGame() {
       timeUsed: "الوقت",
       attemptsUsed: "المحاولات",
       finalScore: "النقاط",
-      playAgainBtn: "🔄 العب مرة أخرى"
+      playAgainBtn: "🎮 اختر لعبة أخرى"
     },
     en: {
       brandName: "Smart Hajj",
@@ -688,7 +670,7 @@ function CodeGame() {
       timeUsed: "Time",
       attemptsUsed: "Attempts",
       finalScore: "Score",
-      playAgainBtn: "🔄 Play Again"
+      playAgainBtn: "🎮 Choose Another Game"
     }
   };
 
@@ -733,6 +715,10 @@ function CodeGame() {
   };
 
   const checkAnswer = () => {
+    console.log('User input:', userInput);
+    console.log('Valid answers:', currentPuzzle.answers);
+    console.log('Match:', currentPuzzle.answers.includes(userInput));
+    
     if (currentPuzzle.answers.includes(userInput)) {
       const timeBonus = timeLeft * 10;
       const attemptBonus = attemptsLeft * 200;
@@ -865,8 +851,39 @@ function CodeGame() {
               </div>
             </div>
 
+            {currentPuzzle && (
+              <div className="clues-box" style={{marginBottom: '15px'}}>
+                <div className="clues-title">
+                  {currentLang === 'ar' ? '✅ الإجابات الصحيحة' : '✅ Correct Answers'}
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))',
+                  gap: '8px',
+                  marginTop: '10px'
+                }}>
+                  {currentPuzzle.answers.map((ans, i) => (
+                    <div key={i} style={{
+                      background: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)',
+                      padding: '10px',
+                      borderRadius: '12px',
+                      border: '2px solid #4CAF50',
+                      fontWeight: '900',
+                      fontSize: '16px',
+                      color: '#2E7D32',
+                      textAlign: 'center',
+                      fontFamily: 'Courier New, monospace',
+                      letterSpacing: '2px'
+                    }}>
+                      {ans}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="action-buttons">
-              <button className="action-btn" onClick={() => setScreen('start')}>
+              <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
                 {lang.playAgainBtn}
               </button>
             </div>
