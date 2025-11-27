@@ -33,7 +33,6 @@ body {
     background-attachment: fixed;
 }
 
-/* Animated stars background */
 .star {
     position: fixed;
     width: 3px;
@@ -62,14 +61,14 @@ body {
 
 .top-bar {
     background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
-    padding: 0 clamp(20px, 4vw, 40px);
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: relative;
     border-bottom: 3px solid #FFD700;
-    height: 70px;
+    height: 60px;
     flex-shrink: 0;
 }
 
@@ -93,11 +92,11 @@ body {
 .brand-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .brand-icon {
-    font-size: 32px;
+    font-size: 28px;
     filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.6));
 }
 
@@ -108,7 +107,7 @@ body {
 }
 
 .brand-text {
-    font-size: clamp(18px, 2.5vw, 24px);
+    font-size: 20px;
     font-weight: 900;
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     -webkit-background-clip: text;
@@ -119,7 +118,7 @@ body {
 }
 
 .brand-tagline {
-    font-size: clamp(9px, 1.2vw, 12px);
+    font-size: 9px;
     color: #CBD5E0;
     font-weight: 600;
     letter-spacing: 1px;
@@ -130,23 +129,23 @@ body {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .lang-toggle {
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     border: none;
     color: white;
-    padding: 10px 18px;
+    padding: 8px 16px;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .lang-toggle:hover {
@@ -155,14 +154,14 @@ body {
 }
 
 .header-shield {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 20px;
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
 }
 
@@ -170,7 +169,9 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: clamp(20px, 3vh, 40px) clamp(20px, 4vw, 60px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
     overflow: hidden;
 }
 
@@ -179,8 +180,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
     animation: fadeInUp 0.6s ease;
+    max-width: 100%;
 }
 
 @keyframes fadeInUp {
@@ -189,8 +190,8 @@ body {
 }
 
 .selection-hero {
-    font-size: clamp(60px, 10vh, 100px);
-    margin-bottom: clamp(15px, 2vh, 25px);
+    font-size: 60px;
+    margin-bottom: 10px;
     animation: float 4s ease-in-out infinite;
     filter: drop-shadow(0 10px 30px rgba(255, 215, 0, 0.5));
 }
@@ -201,38 +202,37 @@ body {
 }
 
 .selection-title {
-    font-size: clamp(32px, 5vh, 48px);
+    font-size: 32px;
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 900;
-    margin-bottom: clamp(8px, 1.5vh, 15px);
+    margin-bottom: 8px;
     text-align: center;
     text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .selection-subtitle {
-    font-size: clamp(16px, 2.5vh, 22px);
+    font-size: 16px;
     color: #94A3B8;
     font-weight: 700;
-    margin-bottom: clamp(25px, 4vh, 40px);
+    margin-bottom: 25px;
     text-align: center;
 }
 
 .games-container {
     display: flex;
-    gap: clamp(20px, 3vw, 40px);
-    width: 100%;
-    max-width: 900px;
+    gap: 20px;
     justify-content: center;
+    max-width: 700px;
 }
 
 .game-card {
     background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
     border: 3px solid #FFD700;
-    border-radius: 25px;
-    padding: clamp(25px, 3vh, 35px) clamp(20px, 2.5vw, 30px);
+    border-radius: 20px;
+    padding: 20px 15px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.2);
@@ -244,7 +244,7 @@ body {
     flex-direction: column;
     align-items: center;
     flex: 1;
-    max-width: 400px;
+    max-width: 280px;
     animation: cardAppear 0.6s ease backwards;
 }
 
@@ -272,25 +272,25 @@ body {
 }
 
 .game-card:hover {
-    transform: translateY(-10px) scale(1.03);
+    transform: translateY(-8px) scale(1.03);
     box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4), 0 0 0 3px rgba(255, 215, 0, 0.4);
     border-color: #FFA500;
 }
 
 .game-card:active {
-    transform: translateY(-5px) scale(1.01);
+    transform: translateY(-4px) scale(1.01);
 }
 
 .game-icon {
-    font-size: clamp(60px, 8vh, 90px);
-    margin-bottom: clamp(15px, 2vh, 20px);
+    font-size: 50px;
+    margin-bottom: 10px;
     filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.4));
     animation: gameIconFloat 3s ease-in-out infinite;
 }
 
 @keyframes gameIconFloat {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-6px); }
 }
 
 .game-card:hover .game-icon {
@@ -303,49 +303,33 @@ body {
 }
 
 .game-name {
-    font-size: clamp(24px, 3vh, 32px);
+    font-size: 22px;
     font-weight: 900;
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: clamp(10px, 1.5vh, 15px);
+    margin-bottom: 8px;
 }
 
 .game-description {
-    font-size: clamp(14px, 1.8vh, 17px);
+    font-size: 13px;
     color: #94A3B8;
     font-weight: 600;
-    line-height: 1.5;
-    margin-bottom: clamp(15px, 2vh, 20px);
-}
-
-.game-features {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(6px, 0.8vh, 10px);
-    margin-bottom: clamp(15px, 2vh, 20px);
-}
-
-.game-feature {
-    font-size: clamp(12px, 1.5vh, 15px);
-    color: #CBD5E0;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    line-height: 1.4;
+    margin-bottom: 12px;
 }
 
 .game-badge {
     display: inline-block;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
-    padding: clamp(6px, 0.8vh, 8px) clamp(15px, 2vw, 20px);
+    padding: 6px 16px;
     border-radius: 50px;
-    font-size: clamp(11px, 1.4vh, 13px);
+    font-size: 11px;
     font-weight: 900;
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    margin-top: auto;
 }
 
 .game-badge.new {
@@ -356,17 +340,6 @@ body {
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.08); }
-}
-
-/* iPad Mini 6 specific (744x1133) */
-@media (min-width: 700px) and (max-width: 900px) {
-    .games-container {
-        max-width: 700px;
-    }
-    
-    .game-card {
-        max-width: 320px;
-    }
 }
 </style>
 
@@ -387,16 +360,10 @@ function SmartHajjMenu() {
       sortName: "فرّز واحمي",
       sortIcon: "🎯",
       sortDescription: "اسحب البطاقات للمكان الصحيح",
-      sortFeature1: "⚡ لعبة سريعة وممتعة",
-      sortFeature2: "🎮 سحب وإفلات تفاعلي",
-      sortFeature3: "🏆 8 سيناريوهات عشوائية",
       sortBadge: "الأكثر شعبية",
       codeName: "فك الشفرة",
       codeIcon: "🔐",
       codeDescription: "حل اللغز واكتشف رقم الرخصة",
-      codeFeature1: "🧩 تحدي ذهني مشوق",
-      codeFeature2: "💡 أدلة ذكية لحل اللغز",
-      codeFeature3: "⏱️ تحدي 60 ثانية",
       codeBadge: "جديد"
     },
     en: {
@@ -409,16 +376,10 @@ function SmartHajjMenu() {
       sortName: "Sort & Protect",
       sortIcon: "🎯",
       sortDescription: "Drag cards to the correct zone",
-      sortFeature1: "⚡ Fast and fun gameplay",
-      sortFeature2: "🎮 Interactive drag & drop",
-      sortFeature3: "🏆 8 random scenarios",
       sortBadge: "Most Popular",
       codeName: "Code Breaker",
       codeIcon: "🔐",
       codeDescription: "Solve the puzzle to find the license",
-      codeFeature1: "🧩 Exciting mental challenge",
-      codeFeature2: "💡 Smart clues to solve",
-      codeFeature3: "⏱️ 60 second challenge",
       codeBadge: "New"
     }
   };
@@ -431,7 +392,6 @@ function SmartHajjMenu() {
   }, [currentLang]);
 
   useEffect(() => {
-    // Create stars
     const stars = [];
     for (let i = 0; i < 100; i++) {
       const star = document.createElement('div');
@@ -475,11 +435,6 @@ function SmartHajjMenu() {
               <div className="game-icon">{lang.sortIcon}</div>
               <div className="game-name">{lang.sortName}</div>
               <div className="game-description">{lang.sortDescription}</div>
-              <div className="game-features">
-                <div className="game-feature">{lang.sortFeature1}</div>
-                <div className="game-feature">{lang.sortFeature2}</div>
-                <div className="game-feature">{lang.sortFeature3}</div>
-              </div>
               <div className="game-badge">{lang.sortBadge}</div>
             </a>
 
@@ -487,11 +442,6 @@ function SmartHajjMenu() {
               <div className="game-icon">{lang.codeIcon}</div>
               <div className="game-name">{lang.codeName}</div>
               <div className="game-description">{lang.codeDescription}</div>
-              <div className="game-features">
-                <div className="game-feature">{lang.codeFeature1}</div>
-                <div className="game-feature">{lang.codeFeature2}</div>
-                <div className="game-feature">{lang.codeFeature3}</div>
-              </div>
               <div className="game-badge new">{lang.codeBadge}</div>
             </a>
           </div>
