@@ -347,7 +347,10 @@ body {
 const { useState, useEffect } = React;
 
 function SmartHajjMenu() {
-  const [currentLang, setCurrentLang] = useState('ar');
+  const [currentLang, setCurrentLang] = useState(() => {
+    // Load saved language preference or default to 'ar'
+    return localStorage.getItem('smarthajj_lang') || 'ar';
+  });
 
   const t = {
     ar: {
@@ -389,6 +392,8 @@ function SmartHajjMenu() {
   useEffect(() => {
     document.documentElement.setAttribute('lang', currentLang);
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+    // Save language preference
+    localStorage.setItem('smarthajj_lang', currentLang);
   }, [currentLang]);
 
   useEffect(() => {
