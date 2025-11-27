@@ -790,7 +790,7 @@ function HajjGame() {
       practiceMsg: "بداية جيدة!",
       prizeMsg: "🎁 اعرض نتيجتك في جناح Smart Hajj",
       learnBtn: "🌐 اكتشف Smart Hajj",
-      playAgainBtn: "🔄 العب مرة أخرى"
+      playAgainBtn: "🎮 اختر لعبة أخرى"
     },
     en: {
       brandName: "Smart Hajj",
@@ -817,7 +817,7 @@ function HajjGame() {
       practiceMsg: "Good start!",
       prizeMsg: "🎁 Show result at Smart Hajj booth",
       learnBtn: "🌐 Discover Smart Hajj",
-      playAgainBtn: "🔄 Play Again"
+      playAgainBtn: "🎮 Choose Another Game"
     }
   };
 
@@ -1126,7 +1126,7 @@ function HajjGame() {
               <button className="action-btn" onClick={() => window.open('https://smarthajj.streamlit.app', '_blank')}>
                 {lang.learnBtn}
               </button>
-              <button className="action-btn action-btn-secondary" onClick={resetGame}>
+              <button className="action-btn action-btn-secondary" onClick={() => window.location.href = 'index.html'}>
                 {lang.playAgainBtn}
               </button>
             </div>
