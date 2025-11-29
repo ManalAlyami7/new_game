@@ -472,6 +472,48 @@ body {
     75% { transform: scale(1.2) rotate(10deg); }
 }
 
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        box-shadow: 0 0 20px currentColor;
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 40px currentColor;
+        transform: scale(1.03);
+    }
+}
+
+@keyframes confettiRain {
+    0% { 
+        opacity: 0;
+        transform: translateY(-50px) rotate(0deg);
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { 
+        opacity: 0;
+        transform: translateY(50px) rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+@keyframes particleExplosion {
+    to {
+        opacity: 0;
+        transform: translateY(-100px) scale(0);
+    }
+}
+
 .result-title {
     font-size: 26px;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
@@ -720,6 +762,84 @@ function SortGame() {
     setScore(Math.round(timeBonus + accuracyBonus));
   };
 
+  const getPerformanceLevel = () => {
+    const accuracy = getAccuracy();
+    if (accuracy === 100) return 'perfect';
+    if (accuracy >= 75) return 'excellent';
+    if (accuracy >= 50) return 'good';
+    return 'needsPractice';
+  };
+
+  const getPerformanceData = () => {
+    const level = getPerformanceLevel();
+    const accuracy = getAccuracy();
+    
+    const performances = {
+      ar: {
+        perfect: {
+          emoji: '🏆',
+          title: 'مثالي! 100%',
+          message: 'أداء خرافي! أنت خبير في كشف النصب!',
+          color: '#FFD700',
+          confetti: true
+        },
+        excellent: {
+          emoji: '🌟',
+          title: 'ممتاز جداً!',
+          message: 'رائع! مهاراتك في الحماية قوية جداً!',
+          color: '#4CAF50',
+          confetti: true
+        },
+        good: {
+          emoji: '👍',
+          title: 'جيد!',
+          message: 'أحسنت! تحتاج لمزيد من التدريب',
+          color: '#2196F3',
+          confetti: false
+        },
+        needsPractice: {
+          emoji: '💪',
+          title: 'حاول مرة أخرى',
+          message: 'لا تستسلم! الممارسة تصنع الإتقان',
+          color: '#FF9800',
+          confetti: false
+        }
+      },
+      en: {
+        perfect: {
+          emoji: '🏆',
+          title: 'Perfect! 100%',
+          message: 'Amazing! You\'re a fraud detection expert!',
+          color: '#FFD700',
+          confetti: true
+        },
+        excellent: {
+          emoji: '🌟',
+          title: 'Excellent!',
+          message: 'Great job! Your protection skills are strong!',
+          color: '#4CAF50',
+          confetti: true
+        },
+        good: {
+          emoji: '👍',
+          title: 'Good Job!',
+          message: 'Well done! Keep practicing to improve',
+          color: '#2196F3',
+          confetti: false
+        },
+        needsPractice: {
+          emoji: '💪',
+          title: 'Try Again',
+          message: 'Don\'t give up! Practice makes perfect',
+          color: '#FF9800',
+          confetti: false
+        }
+      }
+    };
+
+    return performances[currentLang][level];
+  };
+
   const handleDragStart = (e, card, zone) => {
     setDraggedCard({ card, fromZone: zone });
     e.target.style.opacity = '0.5';
@@ -739,6 +859,21 @@ function SortGame() {
 
     const { card, fromZone } = draggedCard;
 
+    // Visual feedback for correct/wrong placement
+    const isCorrect = (toZone === 'safe' && card.type === 'safe') || (toZone === 'fake' && card.type === 'fake');
+    
+    if (isCorrect && toZone !== 'waiting') {
+      // Create success particle effect
+      createParticles(e.clientX, e.clientY, '✨', '#4CAF50');
+    } else if (!isCorrect && toZone !== 'waiting') {
+      // Create error shake effect
+      const dropZone = e.currentTarget;
+      dropZone.style.animation = 'shake 0.5s ease';
+      setTimeout(() => {
+        dropZone.style.animation = '';
+      }, 500);
+    }
+
     if (fromZone === 'waiting') setWaitingCards(prev => prev.filter(c => c.id !== card.id));
     else if (fromZone === 'safe') setSafeZone(prev => prev.filter(c => c.id !== card.id));
     else if (fromZone === 'fake') setFakeZone(prev => prev.filter(c => c.id !== card.id));
@@ -748,6 +883,23 @@ function SortGame() {
     else if (toZone === 'waiting') setWaitingCards(prev => [...prev, card]);
 
     setDraggedCard(null);
+  };
+
+  const createParticles = (x, y, emoji, color) => {
+    for (let i = 0; i < 8; i++) {
+      const particle = document.createElement('div');
+      particle.innerText = emoji;
+      particle.style.position = 'fixed';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.fontSize = '24px';
+      particle.style.pointerEvents = 'none';
+      particle.style.zIndex = '9999';
+      particle.style.animation = `particleExplosion 1s ease-out forwards`;
+      particle.style.setProperty('--angle', (i * 45) + 'deg');
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 1000);
+    }
   };
 
   const renderCard = (card, zone) => (
@@ -858,8 +1010,36 @@ function SortGame() {
 
         {screen === 'finish' && (
           <div className="finish-screen">
-            <div className="result-hero">{lang.resultHero}</div>
-            <div className="result-title">{lang.resultTitle}</div>
+            <div className="result-hero" style={{
+              fontSize: '80px',
+              animation: getPerformanceData().confetti ? 'celebrate 1s ease, bounce 0.5s ease infinite' : 'celebrate 1s ease'
+            }}>
+              {getPerformanceData().emoji}
+            </div>
+            <div className="result-title" style={{
+              background: `linear-gradient(135deg, ${getPerformanceData().color} 0%, ${getPerformanceData().color}dd 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontSize: '32px',
+              textShadow: getPerformanceData().confetti ? `0 0 30px ${getPerformanceData().color}88` : 'none'
+            }}>
+              {getPerformanceData().title}
+            </div>
+            <div style={{
+              fontSize: '15px',
+              color: '#2d3748',
+              fontWeight: '800',
+              marginBottom: '15px',
+              textAlign: 'center',
+              padding: '10px 20px',
+              background: `linear-gradient(135deg, ${getPerformanceData().color}22 0%, ${getPerformanceData().color}11 100%)`,
+              borderRadius: '15px',
+              border: `2px solid ${getPerformanceData().color}44`,
+              animation: getPerformanceData().confetti ? 'glow 2s ease-in-out infinite' : 'none'
+            }}>
+              {getPerformanceData().message}
+            </div>
 
             <div className="result-stats">
               <div className="stat-card">
@@ -867,8 +1047,12 @@ function SortGame() {
                 <div className="stat-value">{60 - timeLeft}s</div>
                 <div className="stat-label">{lang.timeUsed}</div>
               </div>
-              <div className="stat-card">
-                <div className="stat-icon">🎯</div>
+              <div className="stat-card" style={{
+                background: getAccuracy() === 100 ? 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)' : 'linear-gradient(135deg, #fff 0%, #f8f9fa 100%)',
+                border: getAccuracy() === 100 ? '2px solid #FFD700' : '2px solid #e9ecef',
+                animation: getAccuracy() === 100 ? 'glow 2s ease-in-out infinite' : 'none'
+              }}>
+                <div className="stat-icon">{getAccuracy() === 100 ? '💯' : '🎯'}</div>
                 <div className="stat-value">{getAccuracy()}%</div>
                 <div className="stat-label">{lang.accuracy}</div>
               </div>
@@ -884,6 +1068,16 @@ function SortGame() {
               </div>
             </div>
 
+            {getPerformanceData().confetti && (
+              <div style={{
+                fontSize: '40px',
+                marginBottom: '10px',
+                animation: 'confettiRain 3s ease-out infinite'
+              }}>
+                🎊 🎉 ✨ 🌟 💫
+              </div>
+            )}
+
             <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
               {lang.playAgainBtn}
             </button>
@@ -891,6 +1085,7 @@ function SortGame() {
         )}
       </div>
 
+      
     </div>
   );
 }
