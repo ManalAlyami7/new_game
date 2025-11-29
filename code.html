@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Smart Hajj - فك الشفرة 🔐</title>
+    <title>فك الشفرة | Smart Hajj 🔐</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="لعبة ذكاء لاكتشاف أرقام رخص حملات الحج باستخدام الأدلة">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -52,6 +61,11 @@ body {
     100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
 }
 
+@keyframes pageLoad {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
 .game-wrapper {
     width: 100vw;
     height: 100vh;
@@ -59,13 +73,14 @@ body {
     flex-direction: column;
     position: relative;
     z-index: 2;
+    animation: pageLoad 0.5s ease-out;
 }
 
 .top-bar {
     background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
     padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
     position: relative;
@@ -91,10 +106,50 @@ body {
     100% { background-position: 200% center; }
 }
 
+.back-to-menu {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 2px solid #FFD700;
+    color: #FF6B00;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    text-decoration: none;
+    justify-self: start;
+}
+
+.back-to-menu:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    border-color: #FFA500;
+    background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
+}
+
+.back-to-menu:active {
+    transform: translateY(0) scale(1);
+}
+
+.back-to-menu:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.5);
+    outline-offset: 2px;
+}
+
+[dir="rtl"] .back-to-menu {
+    flex-direction: row-reverse;
+}
+
 .brand-logo {
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-self: center;
 }
 
 .brand-icon {
@@ -120,7 +175,7 @@ body {
 }
 
 .brand-tagline {
-    font-size: 9px;
+    font-size: 8px;
     color: #CBD5E0;
     font-weight: 600;
     letter-spacing: 0.8px;
@@ -132,6 +187,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-self: end;
 }
 
 .lang-toggle {
@@ -155,6 +211,11 @@ body {
     box-shadow: 0 5px 18px rgba(255, 215, 0, 0.5);
 }
 
+.lang-toggle:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.5);
+    outline-offset: 2px;
+}
+
 .header-shield {
     width: 32px;
     height: 32px;
@@ -167,44 +228,11 @@ body {
     box-shadow: 0 3px 12px rgba(76, 175, 80, 0.3);
 }
 
-.back-to-menu {
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    border: 2px solid #FFD700;
-    color: #FF6B00;
-    padding: 10px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 900;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: inherit;
-    text-decoration: none;
-}
-
-.back-to-menu:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-    border-color: #FFA500;
-}
-
-[dir="rtl"] .back-to-menu {
-    left: auto;
-    right: 15px;
-}
-
 .main-content {
-    height: calc(100vh - 55px);
+    height: calc(100vh - 90px);
     display: flex;
     flex-direction: column;
-    padding: 12px 15px;
+    padding: 10px 15px;
     overflow: hidden;
     align-items: center;
     justify-content: center;
@@ -224,8 +252,8 @@ body {
 }
 
 .game-hero {
-    font-size: 70px;
-    margin-bottom: 12px;
+    font-size: 65px;
+    margin-bottom: 10px;
     animation: float 4s ease-in-out infinite;
 }
 
@@ -235,7 +263,7 @@ body {
 }
 
 .game-title {
-    font-size: 32px;
+    font-size: 30px;
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -246,7 +274,7 @@ body {
 }
 
 .game-subtitle {
-    font-size: 15px;
+    font-size: 14px;
     color: #FF6B00;
     font-weight: 800;
     margin-bottom: 20px;
@@ -259,9 +287,9 @@ body {
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     color: white;
     border: none;
-    padding: 16px 40px;
+    padding: 14px 35px;
     border-radius: 50px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
     cursor: pointer;
     box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
@@ -272,6 +300,11 @@ body {
 .start-btn:hover {
     transform: scale(1.08) translateY(-4px);
     box-shadow: 0 12px 40px rgba(255, 107, 157, 0.8);
+}
+
+.start-btn:focus {
+    outline: 3px solid rgba(255, 107, 157, 0.5);
+    outline-offset: 3px;
 }
 
 .game-screen {
@@ -294,15 +327,15 @@ body {
     display: flex;
     justify-content: center;
     gap: 15px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .status-box {
     background: linear-gradient(135deg, #fff 0%, #FFF9F0 100%);
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 50px;
     border: 2px solid #FFD700;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     color: #2d3748;
     box-shadow: 0 3px 10px rgba(255, 215, 0, 0.2);
@@ -323,28 +356,28 @@ body {
 
 .code-container {
     background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
-    padding: 18px 25px;
+    padding: 15px 20px;
     border-radius: 20px;
     border: 3px solid #FFD700;
     box-shadow: 0 8px 30px rgba(255, 215, 0, 0.4);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .code-display {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .code-digit {
-    width: 50px;
-    height: 60px;
+    width: 45px;
+    height: 55px;
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    border-radius: 15px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 900;
     color: white;
     box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
@@ -368,28 +401,28 @@ body {
 
 .clues-box {
     background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
-    padding: 15px 18px;
-    border-radius: 18px;
+    padding: 12px 15px;
+    border-radius: 15px;
     border: 3px solid #FFD700;
     box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     width: 100%;
 }
 
 .clues-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 900;
     color: #FF6B00;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: center;
 }
 
 .clue-item {
-    font-size: 13px;
+    font-size: 12px;
     color: #2d3748;
     font-weight: 700;
-    margin-bottom: 6px;
-    padding: 8px 12px;
+    margin-bottom: 5px;
+    padding: 6px 10px;
     background: white;
     border-radius: 10px;
     display: flex;
@@ -401,14 +434,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
 }
 
 .code-input {
     width: 100%;
     max-width: 280px;
-    padding: 12px 20px;
+    padding: 10px 18px;
     border: 3px solid #FFD700;
     border-radius: 50px;
     font-size: 20px;
@@ -430,9 +463,9 @@ body {
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
     border: none;
-    padding: 12px 28px;
+    padding: 10px 24px;
     border-radius: 50px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 900;
     cursor: pointer;
     box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
@@ -451,12 +484,17 @@ body {
     transform: none;
 }
 
+.submit-btn:focus {
+    outline: 3px solid rgba(76, 175, 80, 0.5);
+    outline-offset: 2px;
+}
+
 .feedback-message {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 900;
-    padding: 12px 20px;
+    padding: 10px 18px;
     border-radius: 15px;
-    margin-top: 10px;
+    margin-top: 8px;
     text-align: center;
 }
 
@@ -481,8 +519,8 @@ body {
 }
 
 .result-hero {
-    font-size: 70px;
-    margin-bottom: 12px;
+    font-size: 65px;
+    margin-bottom: 10px;
     animation: celebrate 1s ease;
 }
 
@@ -493,63 +531,58 @@ body {
 }
 
 .result-title {
-    font-size: 28px;
+    font-size: 26px;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 900;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
 .result-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .stat-card {
     background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    padding: 12px 15px;
-    border-radius: 15px;
+    padding: 10px 12px;
+    border-radius: 12px;
     border: 2px solid #e9ecef;
     text-align: center;
-    min-width: 100px;
+    min-width: 90px;
 }
 
 .stat-icon {
-    font-size: 28px;
-    margin-bottom: 6px;
-}
-
-.stat-value {
-    font-size: 22px;
-    font-weight: 900;
-    color: #2d3748;
+    font-size: 24px;
     margin-bottom: 4px;
 }
 
+.stat-value {
+    font-size: 20px;
+    font-weight: 900;
+    color: #2d3748;
+    margin-bottom: 3px;
+}
+
 .stat-label {
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 700;
     color: #64748b;
     text-transform: uppercase;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 12px;
 }
 
 .action-btn {
     background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
     color: white;
     border: none;
-    padding: 14px 24px;
+    padding: 12px 24px;
     border-radius: 50px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 900;
     cursor: pointer;
     box-shadow: 0 6px 25px rgba(255, 107, 157, 0.5);
@@ -562,19 +595,60 @@ body {
     box-shadow: 0 10px 35px rgba(255, 107, 157, 0.7);
 }
 
-.action-btn.secondary {
-    background: white;
-    color: #FF6B9D;
-    border: 2px solid #FFD700;
+.action-btn:focus {
+    outline: 3px solid rgba(255, 107, 157, 0.5);
+    outline-offset: 3px;
+}
+
+.footer {
+    background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+    padding: 8px 20px;
+    border-top: 2px solid #FFD700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+    background-size: 200% 100%;
+    animation: shimmerBorder 3s linear infinite;
+}
+
+.team-label {
+    font-size: 8px;
+    color: #94A3B8;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.team-members {
+    font-size: 10px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    line-height: 1.3;
 }
 </style>
 
 <script type="text/babel">
 const { useState, useEffect } = React;
 
-// Generate random puzzles - Create answer FIRST, then derive clues
 function generateRandomPuzzle() {
-  // Generate a random 5-digit answer
   const digits = [];
   for (let i = 0; i < 5; i++) {
     digits.push(Math.floor(Math.random() * 10));
@@ -583,10 +657,8 @@ function generateRandomPuzzle() {
   const answer = digits.join('');
   const sum = digits.reduce((a, b) => a + b, 0);
   
-  // Generate all possible valid answers for this puzzle
   const generateAllAnswers = (pos1Val, pos5Val, pos2Val, targetSum) => {
     const validAnswers = [];
-    // Positions 3 and 4 are unknown, must sum to: targetSum - pos1Val - pos2Val - pos5Val
     const remainingSum = targetSum - pos1Val - pos2Val - pos5Val;
     
     for (let pos3 = 0; pos3 <= 9; pos3++) {
@@ -598,7 +670,6 @@ function generateRandomPuzzle() {
     return validAnswers;
   };
   
-  // Calculate all valid answers
   const allValidAnswers = generateAllAnswers(digits[0], digits[4], digits[1], sum);
   
   return {
@@ -619,9 +690,7 @@ function generateRandomPuzzle() {
 
 function CodeGame() {
   const [currentLang, setCurrentLang] = useState(() => {
-    // Load saved language preference or default to 'ar'
     const savedLang = localStorage.getItem('smarthajj_lang') || 'ar';
-    console.log('Code game loading language from localStorage:', savedLang);
     return savedLang;
   });
   const [screen, setScreen] = useState('start');
@@ -637,6 +706,7 @@ function CodeGame() {
       brandName: "Smart Hajj",
       tagline: "نظام الحماية الذكي",
       langBtn: "EN",
+      backToMenu: "القائمة",
       gameHero: "🔐",
       gameTitle: "فك الشفرة",
       gameSubtitle: "استخدم الأدلة لاكتشاف رقم الرخصة",
@@ -653,12 +723,15 @@ function CodeGame() {
       timeUsed: "الوقت",
       attemptsUsed: "المحاولات",
       finalScore: "النقاط",
-      playAgainBtn: "🎮 اختر لعبة أخرى"
+      playAgainBtn: "🎮 اختر لعبة أخرى",
+      teamLabel: "تطوير الفريق",
+      teamMembers: "منال اليامي • رغد المنقور • نورة الهويدي"
     },
     en: {
       brandName: "Smart Hajj",
       tagline: "SMART PROTECTION SYSTEM",
       langBtn: "AR",
+      backToMenu: "Menu",
       gameHero: "🔐",
       gameTitle: "Code Breaker",
       gameSubtitle: "Use clues to find the license number",
@@ -675,7 +748,9 @@ function CodeGame() {
       timeUsed: "Time",
       attemptsUsed: "Attempts",
       finalScore: "Score",
-      playAgainBtn: "🎮 Choose Another Game"
+      playAgainBtn: "🎮 Choose Another Game",
+      teamLabel: "Developed by",
+      teamMembers: "Manal Alyami • Raghad Almangour • Nora Alhuwaidi"
     }
   };
 
@@ -684,7 +759,6 @@ function CodeGame() {
   useEffect(() => {
     document.documentElement.setAttribute('lang', currentLang);
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-    // Save language preference
     localStorage.setItem('smarthajj_lang', currentLang);
   }, [currentLang]);
 
@@ -722,10 +796,6 @@ function CodeGame() {
   };
 
   const checkAnswer = () => {
-    console.log('User input:', userInput);
-    console.log('Valid answers:', currentPuzzle.answers);
-    console.log('Match:', currentPuzzle.answers.includes(userInput));
-    
     if (currentPuzzle.answers.includes(userInput)) {
       const timeBonus = timeLeft * 10;
       const attemptBonus = attemptsLeft * 200;
@@ -751,6 +821,11 @@ function CodeGame() {
   return (
     <div className="game-wrapper">
       <div className="top-bar">
+        <a href="index.html" className="back-to-menu">
+          <span>←</span>
+          <span>{lang.backToMenu}</span>
+        </a>
+        
         <div className="brand-logo">
           <div className="brand-icon">🕋</div>
           <div className="brand-content">
@@ -758,6 +833,7 @@ function CodeGame() {
             <div className="brand-tagline">{lang.tagline}</div>
           </div>
         </div>
+        
         <div className="header-actions">
           <div className="header-shield">🛡️</div>
           <button className="lang-toggle" onClick={() => setCurrentLang(currentLang === 'ar' ? 'en' : 'ar')}>
@@ -766,11 +842,6 @@ function CodeGame() {
           </button>
         </div>
       </div>
-
-      <a href="index.html" className="back-to-menu">
-        <span>←</span>
-        <span>{currentLang === 'ar' ? '🏠 القائمة' : '🏠 Menu'}</span>
-      </a>
 
       <div className="main-content">
         {screen === 'start' && (
@@ -859,24 +930,24 @@ function CodeGame() {
             </div>
 
             {currentPuzzle && (
-              <div className="clues-box" style={{marginBottom: '15px'}}>
+              <div className="clues-box" style={{marginBottom: '12px'}}>
                 <div className="clues-title">
                   {currentLang === 'ar' ? '✅ الإجابات الصحيحة' : '✅ Correct Answers'}
                 </div>
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))',
-                  gap: '8px',
-                  marginTop: '10px'
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))',
+                  gap: '6px',
+                  marginTop: '8px'
                 }}>
                   {currentPuzzle.answers.map((ans, i) => (
                     <div key={i} style={{
                       background: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)',
-                      padding: '10px',
-                      borderRadius: '12px',
+                      padding: '8px',
+                      borderRadius: '10px',
                       border: '2px solid #4CAF50',
                       fontWeight: '900',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       color: '#2E7D32',
                       textAlign: 'center',
                       fontFamily: 'Courier New, monospace',
@@ -889,13 +960,16 @@ function CodeGame() {
               </div>
             )}
 
-            <div className="action-buttons">
-              <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
-                {lang.playAgainBtn}
-              </button>
-            </div>
+            <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
+              {lang.playAgainBtn}
+            </button>
           </div>
         )}
+      </div>
+
+      <div className="footer">
+        <div className="team-label">{lang.teamLabel}</div>
+        <div className="team-members">{lang.teamMembers}</div>
       </div>
     </div>
   );
