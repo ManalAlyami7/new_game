@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Smart Hajj - لعبة الفرز 🕋</title>
+    <title>فرّز واحمي | Smart Hajj 🎯</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕋</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="لعبة فرز تفاعلية لتعلم التمييز بين حملات الحج الآمنة والوهمية">
+    <meta name="theme-color" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Cairo:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,8 +28,6 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 html, body {
@@ -32,26 +39,31 @@ html, body {
 
 body {
     font-family: 'Cairo', 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #FEF7E5 0%, #FFF8DC 50%, #FFEFD5 100%);
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
     background-attachment: fixed;
 }
 
 .particle {
     position: fixed;
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(circle, #FFD700, #FFA500);
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #4CAF50, #66BB6A);
     border-radius: 50%;
-    opacity: 0.5;
+    opacity: 0.6;
     pointer-events: none;
     z-index: 1;
-    animation: rise 6s ease-in infinite;
+    animation: rise 5s ease-in infinite;
 }
 
 @keyframes rise {
     0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    50% { opacity: 0.6; }
-    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+}
+
+@keyframes pageLoad {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .game-wrapper {
@@ -61,13 +73,14 @@ body {
     flex-direction: column;
     position: relative;
     z-index: 2;
+    animation: pageLoad 0.5s ease-out;
 }
 
 .top-bar {
     background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
     padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
     position: relative;
@@ -93,10 +106,50 @@ body {
     100% { background-position: 200% center; }
 }
 
+.back-to-menu {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 2px solid #FFD700;
+    color: #FF6B00;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    text-decoration: none;
+    justify-self: start;
+}
+
+.back-to-menu:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    border-color: #FFA500;
+    background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
+}
+
+.back-to-menu:active {
+    transform: translateY(0) scale(1);
+}
+
+.back-to-menu:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.5);
+    outline-offset: 2px;
+}
+
+[dir="rtl"] .back-to-menu {
+    flex-direction: row-reverse;
+}
+
 .brand-logo {
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-self: center;
 }
 
 .brand-icon {
@@ -122,7 +175,7 @@ body {
 }
 
 .brand-tagline {
-    font-size: 9px;
+    font-size: 8px;
     color: #CBD5E0;
     font-weight: 600;
     letter-spacing: 0.8px;
@@ -134,6 +187,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-self: end;
 }
 
 .lang-toggle {
@@ -157,6 +211,11 @@ body {
     box-shadow: 0 5px 18px rgba(255, 215, 0, 0.5);
 }
 
+.lang-toggle:focus {
+    outline: 3px solid rgba(255, 215, 0, 0.5);
+    outline-offset: 2px;
+}
+
 .header-shield {
     width: 32px;
     height: 32px;
@@ -170,11 +229,13 @@ body {
 }
 
 .main-content {
-    height: calc(100vh - 55px);
+    height: calc(100vh - 90px);
     display: flex;
     flex-direction: column;
-    padding: 12px 15px;
+    padding: 10px 15px;
     overflow: hidden;
+    align-items: center;
+    justify-content: center;
 }
 
 .start-screen {
@@ -182,7 +243,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
     animation: fadeInUp 0.6s ease;
 }
 
@@ -191,9 +251,9 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.welcome-hero {
-    font-size: 70px;
-    margin-bottom: 12px;
+.game-hero {
+    font-size: 65px;
+    margin-bottom: 10px;
     animation: float 4s ease-in-out infinite;
 }
 
@@ -203,8 +263,8 @@ body {
 }
 
 .game-title {
-    font-size: 32px;
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    font-size: 30px;
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -213,39 +273,47 @@ body {
     text-align: center;
 }
 
-.game-description {
-    font-size: 16px;
-    color: #FF6B00;
+.game-subtitle {
+    font-size: 14px;
+    color: #2E7D32;
     font-weight: 800;
     margin-bottom: 20px;
     text-align: center;
+    max-width: 70vw;
     line-height: 1.4;
-    max-width: 80vw;
 }
 
 .start-btn {
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
     border: none;
-    padding: 16px 40px;
+    padding: 14px 35px;
     border-radius: 50px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+    box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6);
     transition: all 0.3s ease;
     font-family: inherit;
 }
 
 .start-btn:hover {
     transform: scale(1.08) translateY(-4px);
-    box-shadow: 0 12px 40px rgba(255, 107, 157, 0.8);
+    box-shadow: 0 12px 40px rgba(76, 175, 80, 0.8);
+}
+
+.start-btn:focus {
+    outline: 3px solid rgba(76, 175, 80, 0.5);
+    outline-offset: 3px;
 }
 
 .game-screen {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
     animation: fadeIn 0.6s ease;
 }
 
@@ -257,31 +325,26 @@ body {
 .game-status {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 12px;
     margin-bottom: 10px;
-    gap: 15px;
-    padding: 8px 15px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 15px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
-.timer-box, .score-box, .progress-box {
+.status-box {
     background: linear-gradient(135deg, #fff 0%, #FFF9F0 100%);
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 50px;
     border: 2px solid #FFD700;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 900;
     color: #2d3748;
     box-shadow: 0 3px 10px rgba(255, 215, 0, 0.2);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
-.timer-box.urgent {
+.status-box.urgent {
     border-color: #F44336;
     animation: urgentPulse 0.6s ease-in-out infinite;
 }
@@ -291,215 +354,102 @@ body {
     50% { transform: scale(1.05); }
 }
 
-.timer-number {
-    font-size: 18px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.instruction {
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    padding: 10px 15px;
-    border-radius: 12px;
-    border: 2px solid #e9ecef;
+.drop-zones {
+    display: flex;
+    gap: 10px;
     margin-bottom: 10px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-    border-left: 3px solid #FFD700;
-    flex-shrink: 0;
-}
-
-.instruction-text {
-    font-size: 14px;
-    color: #2d3748;
-    font-weight: 800;
-    line-height: 1.3;
-}
-
-.game-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    flex: 1;
-    min-height: 0;
+    width: 100%;
+    justify-content: center;
 }
 
 .drop-zone {
+    flex: 1;
+    max-width: 200px;
+    min-height: 100px;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 3px dashed #94A3B8;
     border-radius: 15px;
-    border: 3px dashed;
-    padding: 10px 8px;
+    padding: 12px 8px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
     transition: all 0.3s ease;
-    overflow-y: auto;
 }
 
-.drop-zone-safe {
-    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+.drop-zone.safe {
     border-color: #4CAF50;
+    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
 }
 
-.drop-zone-safe.drag-over {
-    background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
-    border-color: #2E7D32;
-    box-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
-    transform: scale(1.02);
-}
-
-.drop-zone-fake {
-    background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+.drop-zone.fake {
     border-color: #F44336;
+    background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
 }
 
-.drop-zone-fake.drag-over {
-    background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
-    border-color: #C62828;
-    box-shadow: 0 0 30px rgba(244, 67, 54, 0.6);
-    transform: scale(1.02);
+.drop-zone.drag-over {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    border-style: solid;
 }
 
-.waiting-cards {
-    background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
-    border: 3px solid #FFD700;
-    border-radius: 15px;
-    padding: 8px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
-    overflow-y: auto;
-}
-
-.waiting-cards-header {
-    grid-column: 1 / -1;
-    text-align: center;
-    font-size: 14px;
+.zone-title {
+    font-size: 11px;
     font-weight: 900;
-    color: #FF6B00;
-    padding: 6px;
-    background: white;
-    border-radius: 10px;
+    text-align: center;
     margin-bottom: 4px;
 }
 
-.zone-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: inherit;
-    padding-bottom: 8px;
+.zone-title.safe { color: #2E7D32; }
+.zone-title.fake { color: #C62828; }
+.zone-title.waiting { color: #64748b; }
+
+.cards-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.zone-label {
-    font-size: 16px;
-    font-weight: 900;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 50px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.drop-zone-safe .zone-label {
-    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-}
-
-.drop-zone-fake .zone-label {
-    background: linear-gradient(135deg, #F44336 0%, #EF5350 100%);
-}
-
-.zone-icon {
-    font-size: 28px;
-}
-
-.cards-area {
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 8px;
-    width: 100%;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 50px;
 }
 
 .campaign-card {
-    background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+    background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
     border: 2px solid #FFD700;
     border-radius: 12px;
-    padding: 10px 8px;
-    width: 95%;
-    cursor: grab;
+    padding: 8px 10px;
+    cursor: move;
     transition: all 0.3s ease;
-    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
-    animation: cardAppear 0.5s ease backwards;
-}
-
-.campaign-card:nth-child(1) { animation-delay: 0.1s; }
-.campaign-card:nth-child(2) { animation-delay: 0.15s; }
-.campaign-card:nth-child(3) { animation-delay: 0.2s; }
-.campaign-card:nth-child(4) { animation-delay: 0.25s; }
-.campaign-card:nth-child(5) { animation-delay: 0.3s; }
-.campaign-card:nth-child(6) { animation-delay: 0.35s; }
-.campaign-card:nth-child(7) { animation-delay: 0.4s; }
-.campaign-card:nth-child(8) { animation-delay: 0.45s; }
-
-@keyframes cardAppear {
-    from { opacity: 0; transform: translateY(15px) scale(0.9); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.campaign-card:active {
-    cursor: grabbing;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    user-select: none;
+    max-width: 180px;
 }
 
 .campaign-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
-    border-color: #FFA500;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
 }
 
 .campaign-card.dragging {
     opacity: 0.5;
     cursor: grabbing;
-    transform: rotate(4deg) scale(1.08);
 }
 
-.card-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-[dir="rtl"] .card-content {
-    flex-direction: row-reverse;
-}
-
-.card-icon {
-    font-size: 20px;
-    min-width: 20px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.card-text {
+.card-title {
     font-size: 11px;
-    color: #FF6B00;
-    font-weight: 800;
-    line-height: 1.25;
-    text-align: start;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    font-weight: 900;
+    color: #FFD700;
+    margin-bottom: 4px;
+    text-align: center;
 }
 
-.card-placed {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-    filter: grayscale(0.5);
+.card-description {
+    font-size: 9px;
+    color: #94A3B8;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
 }
 
 .finish-screen {
@@ -507,322 +457,214 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
     animation: fadeInUp 0.8s ease;
-    padding: 15px;
 }
 
 .result-hero {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 12px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
-    position: relative;
-    animation: resultAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 65px;
+    margin-bottom: 10px;
+    animation: celebrate 1s ease;
 }
 
-.result-hero.perfect {
-    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-    animation: resultAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1), perfectGlow 2s ease-in-out infinite;
+@keyframes celebrate {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.2) rotate(-10deg); }
+    75% { transform: scale(1.2) rotate(10deg); }
 }
 
-@keyframes perfectGlow {
-    0%, 100% { box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5); }
-    50% { box-shadow: 0 12px 50px rgba(76, 175, 80, 0.8); }
-}
-
-.result-hero.excellent {
-    background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
-}
-
-.result-hero.good {
-    background: linear-gradient(135deg, #FFB300 0%, #FFC107 100%);
-}
-
-@keyframes resultAppear {
-    from { transform: scale(0) rotate(-180deg); opacity: 0; }
-    to { transform: scale(1) rotate(0deg); opacity: 1; }
-}
-
-.result-hero::before {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    background: white;
-    border-radius: 50%;
-}
-
-.result-score {
-    font-size: 50px;
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 900;
-    position: relative;
-    z-index: 1;
-}
-
-.result-hero.perfect .result-score {
+.result-title {
+    font-size: 26px;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-.performance-badge {
-    display: inline-block;
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 15px;
     font-weight: 900;
     margin-bottom: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
 }
 
-.performance-badge.perfect {
-    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-    color: white;
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.performance-badge.excellent {
-    background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
-    color: white;
+.stat-card {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    text-align: center;
+    min-width: 100px;
 }
 
-.performance-badge.good {
-    background: linear-gradient(135deg, #FFB300 0%, #FFC107 100%);
-    color: white;
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
 }
 
-.performance-badge.needs-practice {
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
-    color: white;
-}
-
-.result-subtitle {
-    font-size: 14px;
+.stat-value {
+    font-size: 20px;
+    font-weight: 900;
     color: #2d3748;
-    margin-bottom: 15px;
-    font-weight: 800;
-    text-align: center;
-    line-height: 1.4;
-    max-width: 70vw;
+    margin-bottom: 3px;
 }
 
-.prize-card {
-    background: linear-gradient(135deg, #FFF9F0 0%, #FFE5B4 100%);
-    padding: 15px 20px;
-    border-radius: 18px;
-    border: 2px solid #FFD700;
-    margin-bottom: 15px;
-    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.3);
-    text-align: center;
-    max-width: 70vw;
-}
-
-.prize-icon {
-    font-size: 35px;
-    margin-bottom: 8px;
-}
-
-.prize-text {
-    font-size: 13px;
-    font-weight: 900;
-    color: #FF6B00;
-    line-height: 1.4;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
+.stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
 }
 
 .action-btn {
-    background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
     border: none;
-    padding: 14px 24px;
+    padding: 12px 24px;
     border-radius: 50px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 900;
     cursor: pointer;
-    box-shadow: 0 6px 25px rgba(255, 107, 157, 0.5);
+    box-shadow: 0 6px 25px rgba(76, 175, 80, 0.5);
     transition: all 0.3s ease;
     font-family: inherit;
 }
 
 .action-btn:hover {
     transform: scale(1.08) translateY(-4px);
-    box-shadow: 0 10px 35px rgba(255, 107, 157, 0.7);
+    box-shadow: 0 10px 35px rgba(76, 175, 80, 0.7);
 }
 
-.action-btn-secondary {
-    background: white;
-    color: #FF6B9D;
-    border: 2px solid #FFD700;
+.action-btn:focus {
+    outline: 3px solid rgba(76, 175, 80, 0.5);
+    outline-offset: 3px;
 }
 
-.back-to-menu {
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    border: 2px solid #FFD700;
-    color: #FF6B00;
-    padding: 10px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 900;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 12px rgba(255, 215, 0, 0.3);
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    z-index: 1000;
+.footer {
+    background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%);
+    padding: 8px 20px;
+    border-top: 2px solid #FFD700;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-    font-family: inherit;
-    text-decoration: none;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+    flex-shrink: 0;
 }
 
-.back-to-menu:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-    border-color: #FFA500;
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+    background-size: 200% 100%;
+    animation: shimmerBorder 3s linear infinite;
 }
 
-[dir="rtl"] .back-to-menu {
-    left: auto;
-    right: 15px;
+.team-label {
+    font-size: 8px;
+    color: #94A3B8;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
 }
 
-.firework {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-}
-
-@keyframes firework {
-    0% { transform: translate(0, 0); opacity: 1; }
-    100% { transform: translate(var(--x), var(--y)); opacity: 0; }
-}
-
-.drop-zone::-webkit-scrollbar,
-.waiting-cards::-webkit-scrollbar {
-    width: 4px;
-}
-
-.drop-zone::-webkit-scrollbar-track,
-.waiting-cards::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-}
-
-.drop-zone::-webkit-scrollbar-thumb,
-.waiting-cards::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
-    border-radius: 8px;
+.team-members {
+    font-size: 10px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    line-height: 1.3;
 }
 </style>
 
 <script type="text/babel">
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 
-const ALL_CAMPAIGNS = [
-  { id: 1, ar: "حملة مرخصة + عقد رسمي", en: "Licensed + Contract", icon: "✅", isSafe: true },
-  { id: 2, ar: "دفع نقدي بدون إيصال", en: "Cash without receipt", icon: "💰", isSafe: false },
-  { id: 3, ar: "حساب شخصي + أسعار منخفضة", en: "Personal account + Low prices", icon: "⚠️", isSafe: false },
-  { id: 4, ar: "موقع رسمي + رقم رخصة", en: "Official website + License", icon: "🌐", isSafe: true },
-  { id: 5, ar: "إعلان فقط + لا يوجد مكتب", en: "Ad only + No office", icon: "📱", isSafe: false },
-  { id: 6, ar: "مكتب رسمي + تأمين", en: "Official office + Insurance", icon: "🏢", isSafe: true },
-  { id: 7, ar: "ضغط للدفع الفوري", en: "Pressure for payment", icon: "⏰", isSafe: false },
-  { id: 8, ar: "مراجعات موثقة + خبرة", en: "Reviews + Experience", icon: "⭐", isSafe: true },
-  { id: 9, ar: "لا توجد تفاصيل واضحة", en: "No clear details", icon: "❓", isSafe: false },
-  { id: 10, ar: "شهادة اعتماد", en: "Certificate", icon: "📜", isSafe: true },
-  { id: 11, ar: "وعود غير واقعية", en: "Unrealistic promises", icon: "🎭", isSafe: false },
-  { id: 12, ar: "برنامج مفصل + جدول", en: "Detailed program", icon: "📋", isSafe: true }
+const campaigns = [
+  { id: 1, ar: "حملة البركة", en: "Al-Barakah Campaign", desc_ar: "حملة مرخصة + عقد رسمي", desc_en: "Licensed + Contract", type: "safe" },
+  { id: 2, ar: "خدمات الحج السريعة", en: "Quick Hajj Services", desc_ar: "نقداً فقط + بدون عنوان", desc_en: "Cash only + No address", type: "fake" },
+  { id: 3, ar: "مؤسسة الهدى", en: "Al-Huda Foundation", desc_ar: "رخصة موثقة + موقع رسمي", desc_en: "Verified + Official site", type: "safe" },
+  { id: 4, ar: "الطريق المختصر", en: "Shortcut Path", desc_ar: "أسعار غير واقعية", desc_en: "Unrealistic prices", type: "fake" },
+  { id: 5, ar: "طيبة للحج والعمرة", en: "Taibah Hajj & Umrah", desc_ar: "مسجلة بالوزارة + تقييم عالي", desc_en: "Ministry registered + High rated", type: "safe" },
+  { id: 6, ar: "الحج المضمون", en: "Guaranteed Hajj", desc_ar: "حساب وهمي + وعود مبالغ فيها", desc_en: "Fake account + Exaggerated", type: "fake" },
+  { id: 7, ar: "دار الإيمان", en: "Dar Al-Iman", desc_ar: "مكتب فعلي + تراخيص سارية", desc_en: "Real office + Valid license", type: "safe" },
+  { id: 8, ar: "حجز فوري", en: "Instant Booking", desc_ar: "ضغط للحجز الآن + لا معلومات", desc_en: "Pressure tactics + No info", type: "fake" },
+  { id: 9, ar: "بيت المقدس", en: "Bait Al-Maqdis", desc_ar: "شهادات معتمدة", desc_en: "Certified credentials", type: "safe" },
+  { id: 10, ar: "الفرصة الذهبية", en: "Golden Chance", desc_ar: "عرض محدود + تواصل غير رسمي", desc_en: "Limited offer + Unofficial", type: "fake" },
+  { id: 11, ar: "النور للخدمات", en: "Al-Noor Services", desc_ar: "تأمين شامل + ضمانات", desc_en: "Full insurance + Guarantees", type: "safe" },
+  { id: 12, ar: "حج بلا تعقيد", en: "Hassle-Free Hajj", desc_ar: "بدون أوراق + دفع مقدم", desc_en: "No papers + Advance payment", type: "fake" }
 ];
 
-function HajjGame() {
+function SortGame() {
   const [currentLang, setCurrentLang] = useState(() => {
-    // Load saved language preference or default to 'ar'
-    const savedLang = localStorage.getItem('smarthajj_lang') || 'ar';
-    console.log('Sort game loading language from localStorage:', savedLang);
-    return savedLang;
+    return localStorage.getItem('smarthajj_lang') || 'ar';
   });
   const [screen, setScreen] = useState('start');
   const [timeLeft, setTimeLeft] = useState(60);
+  const [waitingCards, setWaitingCards] = useState([]);
+  const [safeZone, setSafeZone] = useState([]);
+  const [fakeZone, setFakeZone] = useState([]);
   const [score, setScore] = useState(0);
   const [draggedCard, setDraggedCard] = useState(null);
-  const [placedCards, setPlacedCards] = useState([]);
-  const [safeZoneCards, setSafeZoneCards] = useState([]);
-  const [fakeZoneCards, setFakeZoneCards] = useState([]);
-  const [campaigns, setCampaigns] = useState([]);
 
   const t = {
     ar: {
       brandName: "Smart Hajj",
       tagline: "نظام الحماية الذكي",
       langBtn: "EN",
-      welcomeHero: "🕋",
-      gameTitle: "🎯 فرّز واحمي!",
-      gameDescription: "اسحب البطاقات للمكان الصحيح",
-      startBtn: "🚀 ابدأ الآن",
+      backToMenu: "القائمة",
+      gameHero: "🎯",
+      gameTitle: "فرّز واحمي",
+      gameSubtitle: "صنف الحملات: آمنة أم وهمية؟",
+      startBtn: "🚀 ابدأ اللعبة",
       timer: "⏰",
-      score: "⭐",
       progress: "📊",
-      instruction: "اسحب كل بطاقة إلى المنطقة الصحيحة",
-      dragMe: "اسحبني 👇",
-      safeZone: "✅ آمنة",
-      fakeZone: "❌ وهمية",
-      perfectBadge: "🏆 مثالي",
-      excellentBadge: "🌟 ممتاز",
-      goodBadge: "👍 جيد",
-      practiceBadge: "💪 واصل",
-      perfectMsg: "رائع! كل إجاباتك صحيحة!",
-      excellentMsg: "عمل ممتاز!",
-      goodMsg: "أداء جيد!",
-      practiceMsg: "بداية جيدة!",
-      prizeMsg: "🎁 اعرض نتيجتك في جناح Smart Hajj",
-      learnBtn: "🌐 اكتشف Smart Hajj",
-      playAgainBtn: "🎮 اختر لعبة أخرى"
+      safeZone: "✅ آمن",
+      fakeZone: "❌ وهمي",
+      waitingZone: "🎴 البطاقات",
+      resultHero: "🎉",
+      resultTitle: "أحسنت! أكملت اللعبة!",
+      timeUsed: "الوقت",
+      accuracy: "الدقة",
+      finalScore: "النقاط",
+      sorted: "تم الفرز",
+      playAgainBtn: "🎮 اختر لعبة أخرى",
+      teamLabel: "تطوير الفريق",
+      teamMembers: "منال اليامي • رغد المنقور • نورة الهويدي"
     },
     en: {
       brandName: "Smart Hajj",
       tagline: "SMART PROTECTION SYSTEM",
       langBtn: "AR",
-      welcomeHero: "🕋",
-      gameTitle: "🎯 Sort & Protect!",
-      gameDescription: "Drag cards to correct zone",
-      startBtn: "🚀 Start Now",
+      backToMenu: "Menu",
+      gameHero: "🎯",
+      gameTitle: "Sort & Protect",
+      gameSubtitle: "Classify campaigns: Safe or Fake?",
+      startBtn: "🚀 Start Game",
       timer: "⏰",
-      score: "⭐",
       progress: "📊",
-      instruction: "Drag each card to the correct zone",
-      dragMe: "Drag Me 👇",
       safeZone: "✅ Safe",
       fakeZone: "❌ Fake",
-      perfectBadge: "🏆 Perfect",
-      excellentBadge: "🌟 Excellent",
-      goodBadge: "👍 Good",
-      practiceBadge: "💪 Practice",
-      perfectMsg: "Amazing! All answers correct!",
-      excellentMsg: "Great work!",
-      goodMsg: "Good performance!",
-      practiceMsg: "Good start!",
-      prizeMsg: "🎁 Show result at Smart Hajj booth",
-      learnBtn: "🌐 Discover Smart Hajj",
-      playAgainBtn: "🎮 Choose Another Game"
+      waitingZone: "🎴 Cards",
+      resultHero: "🎉",
+      resultTitle: "Well Done! You Finished!",
+      timeUsed: "Time",
+      accuracy: "Accuracy",
+      finalScore: "Score",
+      sorted: "Sorted",
+      playAgainBtn: "🎮 Choose Another Game",
+      teamLabel: "Developed by",
+      teamMembers: "Manal Alyami • Raghad Almangour • Nora Alhuwaidi"
     }
   };
 
@@ -831,17 +673,16 @@ function HajjGame() {
   useEffect(() => {
     document.documentElement.setAttribute('lang', currentLang);
     document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-    // Save language preference
     localStorage.setItem('smarthajj_lang', currentLang);
   }, [currentLang]);
 
   useEffect(() => {
     const particles = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 20; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
       particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDelay = Math.random() * 5 + 's';
       document.body.appendChild(particle);
       particles.push(particle);
     }
@@ -849,149 +690,95 @@ function HajjGame() {
   }, []);
 
   useEffect(() => {
-    if (screen === 'game' && timeLeft > 0 && placedCards.length < campaigns.length) {
+    if (screen === 'game' && timeLeft > 0 && waitingCards.length > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && screen === 'game') {
-      endGame();
+    } else if ((timeLeft === 0 || waitingCards.length === 0) && screen === 'game') {
+      calculateScore();
+      setScreen('finish');
     }
-  }, [timeLeft, screen, placedCards.length, campaigns.length]);
-
-  const createFireworks = () => {
-    const colors = ['#FFD700', '#FF6B9D', '#FFA500', '#4CAF50'];
-    for (let i = 0; i < 30; i++) {
-      setTimeout(() => {
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight / 2;
-        
-        for (let j = 0; j < 15; j++) {
-          const firework = document.createElement('div');
-          firework.className = 'firework';
-          firework.style.left = x + 'px';
-          firework.style.top = y + 'px';
-          firework.style.background = colors[Math.floor(Math.random() * colors.length)];
-          
-          const angle = (Math.PI * 2 * j) / 15;
-          const velocity = 80 + Math.random() * 80;
-          firework.style.setProperty('--x', Math.cos(angle) * velocity + 'px');
-          firework.style.setProperty('--y', Math.sin(angle) * velocity + 'px');
-          firework.style.animation = 'firework 1s ease-out forwards';
-          
-          document.body.appendChild(firework);
-          setTimeout(() => firework.remove(), 1000);
-        }
-      }, i * 30);
-    }
-  };
+  }, [timeLeft, screen, waitingCards]);
 
   const startGame = () => {
-    const shuffled = [...ALL_CAMPAIGNS].sort(() => Math.random() - 0.5).slice(0, 8);
-    setCampaigns(shuffled);
-    setScreen('game');
+    const shuffled = [...campaigns].sort(() => Math.random() - 0.5).slice(0, 8);
+    setWaitingCards(shuffled);
+    setSafeZone([]);
+    setFakeZone([]);
     setTimeLeft(60);
     setScore(0);
-    setPlacedCards([]);
-    setSafeZoneCards([]);
-    setFakeZoneCards([]);
+    setScreen('game');
   };
 
-  const handleDragStart = (e, campaign) => {
-    if (placedCards.includes(campaign.id)) return;
-    setDraggedCard(campaign);
-    e.currentTarget.classList.add('dragging');
+  const calculateScore = () => {
+    const safeCorrect = safeZone.filter(c => c.type === 'safe').length;
+    const fakeCorrect = fakeZone.filter(c => c.type === 'fake').length;
+    const totalCorrect = safeCorrect + fakeCorrect;
+    const totalCards = safeZone.length + fakeZone.length;
+    const accuracy = totalCards > 0 ? (totalCorrect / totalCards) * 100 : 0;
+    const timeBonus = timeLeft * 5;
+    const accuracyBonus = accuracy * 10;
+    setScore(Math.round(timeBonus + accuracyBonus));
+  };
+
+  const handleDragStart = (e, card, zone) => {
+    setDraggedCard({ card, fromZone: zone });
+    e.target.style.opacity = '0.5';
   };
 
   const handleDragEnd = (e) => {
-    e.currentTarget.classList.remove('dragging');
+    e.target.style.opacity = '1';
   };
 
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
-  const handleDragEnter = (e) => {
+  const handleDrop = (e, toZone) => {
     e.preventDefault();
-    e.currentTarget.classList.add('drag-over');
-  };
+    if (!draggedCard) return;
 
-  const handleDragLeave = (e) => {
-    e.currentTarget.classList.remove('drag-over');
-  };
+    const { card, fromZone } = draggedCard;
 
-  const handleDrop = (e, zone) => {
-    e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
-    
-    if (!draggedCard || placedCards.includes(draggedCard.id)) return;
+    if (fromZone === 'waiting') setWaitingCards(prev => prev.filter(c => c.id !== card.id));
+    else if (fromZone === 'safe') setSafeZone(prev => prev.filter(c => c.id !== card.id));
+    else if (fromZone === 'fake') setFakeZone(prev => prev.filter(c => c.id !== card.id));
 
-    const isCorrect = (zone === 'safe' && draggedCard.isSafe) || (zone === 'fake' && !draggedCard.isSafe);
-    
-    if (isCorrect) {
-      setScore(score + 100);
-      createFireworks();
-    }
-    
-    setPlacedCards([...placedCards, draggedCard.id]);
-    
-    if (zone === 'safe') {
-      setSafeZoneCards([...safeZoneCards, draggedCard]);
-    } else {
-      setFakeZoneCards([...fakeZoneCards, draggedCard]);
-    }
-    
-    if (placedCards.length + 1 === campaigns.length) {
-      setTimeout(() => endGame(), 500);
-    }
-    
+    if (toZone === 'safe') setSafeZone(prev => [...prev, card]);
+    else if (toZone === 'fake') setFakeZone(prev => [...prev, card]);
+    else if (toZone === 'waiting') setWaitingCards(prev => [...prev, card]);
+
     setDraggedCard(null);
   };
 
-  const endGame = () => {
-    setScreen('finish');
-    createFireworks();
-  };
+  const renderCard = (card, zone) => (
+    <div
+      key={card.id}
+      className="campaign-card"
+      draggable
+      onDragStart={(e) => handleDragStart(e, card, zone)}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="card-title">{currentLang === 'ar' ? card.ar : card.en}</div>
+      <div className="card-description">{currentLang === 'ar' ? card.desc_ar : card.desc_en}</div>
+    </div>
+  );
 
-  const resetGame = () => {
-    setScreen('start');
-    setScore(0);
-    setPlacedCards([]);
-    setSafeZoneCards([]);
-    setFakeZoneCards([]);
-  };
-
-  const correctCount = [...safeZoneCards, ...fakeZoneCards].filter(card => {
-    return (safeZoneCards.includes(card) && card.isSafe) || 
-           (fakeZoneCards.includes(card) && !card.isSafe);
-  }).length;
-
-  const percentage = campaigns.length > 0 ? Math.round((correctCount / campaigns.length) * 100) : 0;
-  
-  const getPerformanceLevel = () => {
-    if (percentage === 100) return 'perfect';
-    if (percentage >= 75) return 'excellent';
-    if (percentage >= 50) return 'good';
-    return 'practice';
-  };
-
-  const getPerformanceBadge = () => {
-    const level = getPerformanceLevel();
-    if (level === 'perfect') return lang.perfectBadge;
-    if (level === 'excellent') return lang.excellentBadge;
-    if (level === 'good') return lang.goodBadge;
-    return lang.practiceBadge;
-  };
-
-  const getPerformanceMessage = () => {
-    const level = getPerformanceLevel();
-    if (level === 'perfect') return lang.perfectMsg;
-    if (level === 'excellent') return lang.excellentMsg;
-    if (level === 'good') return lang.goodMsg;
-    return lang.practiceMsg;
+  const getAccuracy = () => {
+    const totalCards = safeZone.length + fakeZone.length;
+    if (totalCards === 0) return 0;
+    const safeCorrect = safeZone.filter(c => c.type === 'safe').length;
+    const fakeCorrect = fakeZone.filter(c => c.type === 'fake').length;
+    return Math.round(((safeCorrect + fakeCorrect) / totalCards) * 100);
   };
 
   return (
     <div className="game-wrapper">
       <div className="top-bar">
+        <a href="index.html" className="back-to-menu">
+          <span>←</span>
+          <span>{lang.backToMenu}</span>
+        </a>
+        
         <div className="brand-logo">
           <div className="brand-icon">🕋</div>
           <div className="brand-content">
@@ -999,6 +786,7 @@ function HajjGame() {
             <div className="brand-tagline">{lang.tagline}</div>
           </div>
         </div>
+        
         <div className="header-actions">
           <div className="header-shield">🛡️</div>
           <button className="lang-toggle" onClick={() => setCurrentLang(currentLang === 'ar' ? 'en' : 'ar')}>
@@ -1008,17 +796,12 @@ function HajjGame() {
         </div>
       </div>
 
-      <a href="index.html" className="back-to-menu">
-        <span>←</span>
-        <span>{currentLang === 'ar' ? '🏠 القائمة' : '🏠 Menu'}</span>
-      </a>
-
       <div className="main-content">
         {screen === 'start' && (
           <div className="start-screen">
-            <div className="welcome-hero">{lang.welcomeHero}</div>
+            <div className="game-hero">{lang.gameHero}</div>
             <div className="game-title">{lang.gameTitle}</div>
-            <div className="game-description">{lang.gameDescription}</div>
+            <div className="game-subtitle">{lang.gameSubtitle}</div>
             <button className="start-btn" onClick={startGame}>{lang.startBtn}</button>
           </div>
         )}
@@ -1026,86 +809,47 @@ function HajjGame() {
         {screen === 'game' && (
           <div className="game-screen">
             <div className="game-status">
-              <div className={`timer-box ${timeLeft <= 15 ? 'urgent' : ''}`}>
+              <div className={`status-box ${timeLeft <= 10 ? 'urgent' : ''}`}>
                 <span>{lang.timer}</span>
-                <span className="timer-number">{timeLeft}</span>
+                <span>{timeLeft}s</span>
               </div>
-              <div className="score-box">
-                <span>{lang.score}</span>
-                <span>{score}</span>
-              </div>
-              <div className="progress-box">
+              <div className="status-box">
                 <span>{lang.progress}</span>
-                <span>{placedCards.length}/{campaigns.length}</span>
+                <span>{8 - waitingCards.length}/8</span>
               </div>
             </div>
 
-            <div className="instruction">
-              <div className="instruction-text">{lang.instruction}</div>
-            </div>
-
-            <div className="game-layout">
+            <div className="drop-zones">
               <div 
-                className="drop-zone drop-zone-safe"
+                className="drop-zone safe"
                 onDragOver={handleDragOver}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
                 onDrop={(e) => handleDrop(e, 'safe')}
               >
-                <div className="zone-header">
-                  <div className="zone-label">{lang.safeZone}</div>
-                  <div className="zone-icon">✅</div>
+                <div className="zone-title safe">{lang.safeZone}</div>
+                <div className="cards-container">
+                  {safeZone.map(card => renderCard(card, 'safe'))}
                 </div>
-                <div className="cards-area">
-                  {safeZoneCards.map(card => (
-                    <div key={card.id} className="campaign-card card-placed">
-                      <div className="card-content">
-                        <div className="card-icon">{card.icon}</div>
-                        <div className="card-text">{card[currentLang]}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="waiting-cards">
-                <div className="waiting-cards-header">{lang.dragMe}</div>
-                {campaigns.map(campaign => (
-                  <div
-                    key={campaign.id}
-                    className={`campaign-card ${placedCards.includes(campaign.id) ? 'card-placed' : ''}`}
-                    draggable={!placedCards.includes(campaign.id)}
-                    onDragStart={(e) => handleDragStart(e, campaign)}
-                    onDragEnd={handleDragEnd}
-                  >
-                    <div className="card-content">
-                      <div className="card-icon">{campaign.icon}</div>
-                      <div className="card-text">{campaign[currentLang]}</div>
-                    </div>
-                  </div>
-                ))}
               </div>
 
               <div 
-                className="drop-zone drop-zone-fake"
+                className="drop-zone"
                 onDragOver={handleDragOver}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, 'waiting')}
+              >
+                <div className="zone-title waiting">{lang.waitingZone}</div>
+                <div className="cards-container">
+                  {waitingCards.map(card => renderCard(card, 'waiting'))}
+                </div>
+              </div>
+
+              <div 
+                className="drop-zone fake"
+                onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, 'fake')}
               >
-                <div className="zone-header">
-                  <div className="zone-label">{lang.fakeZone}</div>
-                  <div className="zone-icon">❌</div>
-                </div>
-                <div className="cards-area">
-                  {fakeZoneCards.map(card => (
-                    <div key={card.id} className="campaign-card card-placed">
-                      <div className="card-content">
-                        <div className="card-icon">{card.icon}</div>
-                        <div className="card-text">{card[currentLang]}</div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="zone-title fake">{lang.fakeZone}</div>
+                <div className="cards-container">
+                  {fakeZone.map(card => renderCard(card, 'fake'))}
                 </div>
               </div>
             </div>
@@ -1114,37 +858,48 @@ function HajjGame() {
 
         {screen === 'finish' && (
           <div className="finish-screen">
-            <div className={`result-hero ${getPerformanceLevel()}`}>
-              <div className="result-score">{correctCount}/{campaigns.length}</div>
-            </div>
-            
-            <div className={`performance-badge ${getPerformanceLevel()}`}>
-              {getPerformanceBadge()}
-            </div>
-            
-            <div className="result-subtitle">{getPerformanceMessage()}</div>
+            <div className="result-hero">{lang.resultHero}</div>
+            <div className="result-title">{lang.resultTitle}</div>
 
-            <div className="prize-card">
-              <div className="prize-icon">🎁</div>
-              <div className="prize-text">{lang.prizeMsg}</div>
+            <div className="result-stats">
+              <div className="stat-card">
+                <div className="stat-icon">⏱️</div>
+                <div className="stat-value">{60 - timeLeft}s</div>
+                <div className="stat-label">{lang.timeUsed}</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">🎯</div>
+                <div className="stat-value">{getAccuracy()}%</div>
+                <div className="stat-label">{lang.accuracy}</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">⭐</div>
+                <div className="stat-value">{score}</div>
+                <div className="stat-label">{lang.finalScore}</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-icon">📊</div>
+                <div className="stat-value">{safeZone.length + fakeZone.length}</div>
+                <div className="stat-label">{lang.sorted}</div>
+              </div>
             </div>
 
-            <div className="action-buttons">
-              <button className="action-btn" onClick={() => window.open('https://smarthajj.streamlit.app', '_blank')}>
-                {lang.learnBtn}
-              </button>
-              <button className="action-btn action-btn-secondary" onClick={() => window.location.href = 'index.html'}>
-                {lang.playAgainBtn}
-              </button>
-            </div>
+            <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
+              {lang.playAgainBtn}
+            </button>
           </div>
         )}
+      </div>
+
+      <div className="footer">
+        <div className="team-label">{lang.teamLabel}</div>
+        <div className="team-members">{lang.teamMembers}</div>
       </div>
     </div>
   );
 }
 
-ReactDOM.render(<HajjGame />, document.getElementById('app'));
+ReactDOM.render(<SortGame />, document.getElementById('app'));
 </script>
 </body>
 </html>
