@@ -39,7 +39,7 @@ html, body {
 
 body {
     font-family: 'Cairo', 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+    background: linear-gradient(135deg, #FEF7E5 0%, #FFF8DC 50%, #FFEFD5 100%);
     background-attachment: fixed;
 }
 
@@ -780,29 +780,25 @@ function SortGame() {
           emoji: '🏆',
           title: 'مثالي! 100%',
           message: 'أداء خرافي! أنت خبير في كشف النصب!',
-          color: '#FFD700',
-          confetti: true
+          color: '#FFD700'
         },
         excellent: {
           emoji: '🌟',
           title: 'ممتاز جداً!',
           message: 'رائع! مهاراتك في الحماية قوية جداً!',
-          color: '#4CAF50',
-          confetti: true
+          color: '#4CAF50'
         },
         good: {
           emoji: '👍',
           title: 'جيد!',
           message: 'أحسنت! تحتاج لمزيد من التدريب',
-          color: '#2196F3',
-          confetti: false
+          color: '#2196F3'
         },
         needsPractice: {
           emoji: '💪',
           title: 'حاول مرة أخرى',
           message: 'لا تستسلم! الممارسة تصنع الإتقان',
-          color: '#FF9800',
-          confetti: false
+          color: '#FF9800'
         }
       },
       en: {
@@ -810,29 +806,25 @@ function SortGame() {
           emoji: '🏆',
           title: 'Perfect! 100%',
           message: 'Amazing! You\'re a fraud detection expert!',
-          color: '#FFD700',
-          confetti: true
+          color: '#FFD700'
         },
         excellent: {
           emoji: '🌟',
           title: 'Excellent!',
           message: 'Great job! Your protection skills are strong!',
-          color: '#4CAF50',
-          confetti: true
+          color: '#4CAF50'
         },
         good: {
           emoji: '👍',
           title: 'Good Job!',
           message: 'Well done! Keep practicing to improve',
-          color: '#2196F3',
-          confetti: false
+          color: '#2196F3'
         },
         needsPractice: {
           emoji: '💪',
           title: 'Try Again',
           message: 'Don\'t give up! Practice makes perfect',
-          color: '#FF9800',
-          confetti: false
+          color: '#FF9800'
         }
       }
     };
@@ -1011,8 +1003,7 @@ function SortGame() {
         {screen === 'finish' && (
           <div className="finish-screen">
             <div className="result-hero" style={{
-              fontSize: '80px',
-              animation: getPerformanceData().confetti ? 'celebrate 1s ease, bounce 0.5s ease infinite' : 'celebrate 1s ease'
+              fontSize: '70px'
             }}>
               {getPerformanceData().emoji}
             </div>
@@ -1021,22 +1012,17 @@ function SortGame() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              fontSize: '32px',
-              textShadow: getPerformanceData().confetti ? `0 0 30px ${getPerformanceData().color}88` : 'none'
+              fontSize: '28px'
             }}>
               {getPerformanceData().title}
             </div>
             <div style={{
-              fontSize: '15px',
+              fontSize: '13px',
               color: '#2d3748',
-              fontWeight: '800',
+              fontWeight: '700',
               marginBottom: '15px',
               textAlign: 'center',
-              padding: '10px 20px',
-              background: `linear-gradient(135deg, ${getPerformanceData().color}22 0%, ${getPerformanceData().color}11 100%)`,
-              borderRadius: '15px',
-              border: `2px solid ${getPerformanceData().color}44`,
-              animation: getPerformanceData().confetti ? 'glow 2s ease-in-out infinite' : 'none'
+              maxWidth: '80%'
             }}>
               {getPerformanceData().message}
             </div>
@@ -1047,11 +1033,7 @@ function SortGame() {
                 <div className="stat-value">{60 - timeLeft}s</div>
                 <div className="stat-label">{lang.timeUsed}</div>
               </div>
-              <div className="stat-card" style={{
-                background: getAccuracy() === 100 ? 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)' : 'linear-gradient(135deg, #fff 0%, #f8f9fa 100%)',
-                border: getAccuracy() === 100 ? '2px solid #FFD700' : '2px solid #e9ecef',
-                animation: getAccuracy() === 100 ? 'glow 2s ease-in-out infinite' : 'none'
-              }}>
+              <div className="stat-card">
                 <div className="stat-icon">{getAccuracy() === 100 ? '💯' : '🎯'}</div>
                 <div className="stat-value">{getAccuracy()}%</div>
                 <div className="stat-label">{lang.accuracy}</div>
@@ -1061,22 +1043,7 @@ function SortGame() {
                 <div className="stat-value">{score}</div>
                 <div className="stat-label">{lang.finalScore}</div>
               </div>
-              <div className="stat-card">
-                <div className="stat-icon">📊</div>
-                <div className="stat-value">{safeZone.length + fakeZone.length}</div>
-                <div className="stat-label">{lang.sorted}</div>
-              </div>
             </div>
-
-            {getPerformanceData().confetti && (
-              <div style={{
-                fontSize: '40px',
-                marginBottom: '10px',
-                animation: 'confettiRain 3s ease-out infinite'
-              }}>
-                🎊 🎉 ✨ 🌟 💫
-              </div>
-            )}
 
             <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
               {lang.playAgainBtn}
@@ -1085,7 +1052,10 @@ function SortGame() {
         )}
       </div>
 
-      
+      <div className="footer">
+        <div className="team-label">{lang.teamLabel}</div>
+        <div className="team-members">{lang.teamMembers}</div>
+      </div>
     </div>
   );
 }
