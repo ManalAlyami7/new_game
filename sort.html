@@ -525,32 +525,30 @@ body {
     text-align: center;
 }
 
-.result-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
 .stat-card {
     background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    padding: 10px 12px;
-    border-radius: 12px;
+    padding: 12px 10px;
+    border-radius: 15px;
     border: 2px solid #e9ecef;
     text-align: center;
-    min-width: 100px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stat-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
+    font-size: 28px;
+    margin-bottom: 6px;
 }
 
 .stat-value {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 900;
     color: #2d3748;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .stat-label {
@@ -558,6 +556,7 @@ body {
     font-weight: 700;
     color: #64748b;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .action-btn {
@@ -1003,56 +1002,88 @@ function SortGame() {
         {screen === 'finish' && (
           <div className="finish-screen">
             <div className="result-hero" style={{
-              fontSize: '70px'
+              fontSize: '80px',
+              marginBottom: '15px',
+              filter: 'drop-shadow(0 10px 30px rgba(255, 215, 0, 0.4))'
             }}>
               {getPerformanceData().emoji}
             </div>
+            
             <div className="result-title" style={{
               background: `linear-gradient(135deg, ${getPerformanceData().color} 0%, ${getPerformanceData().color}dd 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              fontSize: '28px'
+              fontSize: '32px',
+              marginBottom: '8px',
+              fontWeight: '900'
             }}>
               {getPerformanceData().title}
             </div>
+            
             <div style={{
-              fontSize: '13px',
-              color: '#2d3748',
+              fontSize: '15px',
+              color: '#64748b',
               fontWeight: '700',
-              marginBottom: '15px',
+              marginBottom: '20px',
               textAlign: 'center',
-              maxWidth: '80%'
+              maxWidth: '85%',
+              lineHeight: '1.4'
             }}>
               {getPerformanceData().message}
             </div>
 
-            <div className="result-stats">
-              <div className="stat-card">
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              marginBottom: '20px',
+              width: '100%',
+              maxWidth: '500px',
+              justifyContent: 'center'
+            }}>
+              <div className="stat-card" style={{
+                flex: 1,
+                minWidth: '0'
+              }}>
                 <div className="stat-icon">⏱️</div>
                 <div className="stat-value">{60 - timeLeft}s</div>
                 <div className="stat-label">{lang.timeUsed}</div>
               </div>
-              <div className="stat-card">
-                <div className="stat-icon">{getAccuracy() === 100 ? '💯' : '🎯'}</div>
-                <div className="stat-value">{getAccuracy()}%</div>
+              <div className="stat-card" style={{
+                flex: 1,
+                minWidth: '0',
+                background: getAccuracy() === 100 ? 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)' : 'linear-gradient(135deg, #fff 0%, #f8f9fa 100%)',
+                border: getAccuracy() === 100 ? '3px solid #FFD700' : '2px solid #e9ecef',
+                transform: getAccuracy() === 100 ? 'scale(1.05)' : 'scale(1)'
+              }}>
+                <div className="stat-icon" style={{ fontSize: '32px' }}>
+                  {getAccuracy() === 100 ? '💯' : '🎯'}
+                </div>
+                <div className="stat-value" style={{
+                  color: getAccuracy() === 100 ? '#FFD700' : '#2d3748'
+                }}>
+                  {getAccuracy()}%
+                </div>
                 <div className="stat-label">{lang.accuracy}</div>
               </div>
-              <div className="stat-card">
+              <div className="stat-card" style={{
+                flex: 1,
+                minWidth: '0'
+              }}>
                 <div className="stat-icon">⭐</div>
                 <div className="stat-value">{score}</div>
                 <div className="stat-label">{lang.finalScore}</div>
               </div>
             </div>
 
-            <button className="action-btn" onClick={() => window.location.href = 'index.html'}>
+            <button className="action-btn" onClick={() => window.location.href = 'index.html'} style={{
+              boxShadow: `0 8px 30px ${getPerformanceData().color}66`
+            }}>
               {lang.playAgainBtn}
             </button>
           </div>
         )}
       </div>
-
-    
     </div>
   );
 }
