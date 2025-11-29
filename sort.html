@@ -425,21 +425,29 @@ body {
     border: 2px solid #FFD700;
     border-radius: 12px;
     padding: 10px 12px;
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     user-select: none;
     max-width: 180px;
-    touch-action: none;
 }
 
 .campaign-card:active {
-    cursor: grabbing;
+    transform: scale(0.98);
 }
 
 .campaign-card:hover {
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.campaign-card.selected {
+    animation: pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
 }
 
 .campaign-card.dragging {
@@ -766,8 +774,7 @@ function SortGame() {
     setScore(0);
     setScreen('game');
   };
-
-  const calculateScore = () => {
+const calculateScore = () => {
     const safeCorrect = safeZone.filter(c => c.type === 'safe').length;
     const fakeCorrect = fakeZone.filter(c => c.type === 'fake').length;
     const totalCorrect = safeCorrect + fakeCorrect;
@@ -788,7 +795,6 @@ function SortGame() {
 
   const getPerformanceData = () => {
     const level = getPerformanceLevel();
-    const accuracy = getAccuracy();
     
     const performances = {
       ar: {
@@ -848,6 +854,9 @@ function SortGame() {
     return performances[currentLang][level];
   };
 
+  // FIXED: Combined all drag/touch handlers - no duplicate declarations
+  const [selectedCard, setSelectedCard] = useState(null);
+
   const handleDragStart = (e, card, zone) => {
     setDraggedCard({ card, fromZone: zone });
     if (e.dataTransfer) {
@@ -871,16 +880,13 @@ function SortGame() {
 
     const { card, fromZone } = draggedCard;
 
-    // Visual feedback for correct/wrong placement
     const isCorrect = (toZone === 'safe' && card.type === 'safe') || (toZone === 'fake' && card.type === 'fake');
     
     if (isCorrect && toZone !== 'waiting') {
-      // Create success particle effect
       createParticles(e.clientX || e.touches?.[0]?.clientX || window.innerWidth / 2, 
                        e.clientY || e.touches?.[0]?.clientY || window.innerHeight / 2, 
                        '✨', '#4CAF50');
     } else if (!isCorrect && toZone !== 'waiting') {
-      // Create error shake effect
       const dropZone = e.currentTarget;
       dropZone.style.animation = 'shake 0.5s ease';
       setTimeout(() => {
@@ -899,48 +905,20 @@ function SortGame() {
     setDraggedCard(null);
   };
 
-  // Touch handlers for mobile/tablet
-  const handleTouchStart = (e, card, zone) => {
-    e.preventDefault();
+  const handleCardClick = (card, zone) => {
+    setSelectedCard({ card, fromZone: zone });
     setDraggedCard({ card, fromZone: zone });
-    const target = e.currentTarget;
-    target.style.opacity = '0.7';
-    target.style.transform = 'scale(1.1)';
-    target.style.zIndex = '1000';
-    target.style.position = 'relative';
   };
 
-  const handleTouchMove = (e) => {
-    e.preventDefault();
-    // Visual feedback that something is being dragged
-  };
+  const handleZoneClick = (toZone) => {
+    if (!selectedCard) return;
 
-  const handleTouchEnd = (e, toZone) => {
-    e.preventDefault();
-    if (!draggedCard) return;
+    const { card, fromZone } = selectedCard;
 
-    // Reset visual state
-    const cards = document.querySelectorAll('.campaign-card');
-    cards.forEach(card => {
-      card.style.opacity = '1';
-      card.style.transform = 'scale(1)';
-      card.style.zIndex = '';
-      card.style.position = '';
-    });
-
-    const { card, fromZone } = draggedCard;
-
-    // Visual feedback
     const isCorrect = (toZone === 'safe' && card.type === 'safe') || (toZone === 'fake' && card.type === 'fake');
     
     if (isCorrect && toZone !== 'waiting') {
       createParticles(window.innerWidth / 2, window.innerHeight / 3, '✨', '#4CAF50');
-    } else if (!isCorrect && toZone !== 'waiting') {
-      const dropZone = e.currentTarget;
-      dropZone.style.animation = 'shake 0.5s ease';
-      setTimeout(() => {
-        dropZone.style.animation = '';
-      }, 500);
     }
 
     if (fromZone === 'waiting') setWaitingCards(prev => prev.filter(c => c.id !== card.id));
@@ -951,6 +929,7 @@ function SortGame() {
     else if (toZone === 'fake') setFakeZone(prev => [...prev, card]);
     else if (toZone === 'waiting') setWaitingCards(prev => [...prev, card]);
 
+    setSelectedCard(null);
     setDraggedCard(null);
   };
 
@@ -971,21 +950,28 @@ function SortGame() {
     }
   };
 
-  const renderCard = (card, zone) => (
-    <div
-      key={card.id}
-      className="campaign-card"
-      draggable
-      onDragStart={(e) => handleDragStart(e, card, zone)}
-      onDragEnd={handleDragEnd}
-      onTouchStart={(e) => handleTouchStart(e, card, zone)}
-      onTouchMove={handleTouchMove}
-      style={{ touchAction: 'none' }}
-    >
-      <div className="card-title">{currentLang === 'ar' ? card.ar : card.en}</div>
-      <div className="card-description">{currentLang === 'ar' ? card.desc_ar : card.desc_en}</div>
-    </div>
-  );
+  const renderCard = (card, zone) => {
+    const isSelected = selectedCard && selectedCard.card.id === card.id;
+    
+    return (
+      <div
+        key={card.id}
+        className={`campaign-card ${isSelected ? 'selected' : ''}`}
+        draggable
+        onDragStart={(e) => handleDragStart(e, card, zone)}
+        onDragEnd={handleDragEnd}
+        onClick={() => handleCardClick(card, zone)}
+        style={{
+          transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+          boxShadow: isSelected ? '0 0 20px rgba(255, 215, 0, 0.8)' : '',
+          border: isSelected ? '3px solid #FFA500' : '2px solid #FFD700'
+        }}
+      >
+        <div className="card-title">{currentLang === 'ar' ? card.ar : card.en}</div>
+        <div className="card-description">{currentLang === 'ar' ? card.desc_ar : card.desc_en}</div>
+      </div>
+    );
+  };
 
   const getAccuracy = () => {
     const totalCards = safeZone.length + fakeZone.length;
@@ -1043,12 +1029,49 @@ function SortGame() {
               </div>
             </div>
 
+            {!selectedCard && waitingCards.length > 0 && (
+              <div style={{
+                fontSize: '13px',
+                color: '#64748b',
+                fontWeight: '700',
+                marginBottom: '10px',
+                textAlign: 'center',
+                padding: '8px 15px',
+                background: 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)',
+                borderRadius: '12px',
+                border: '2px solid #FFD70044'
+              }}>
+                {currentLang === 'ar' ? '👆 اضغط على البطاقة ثم اضغط على المنطقة' : '👆 Tap card then tap zone'}
+              </div>
+            )}
+
+            {selectedCard && (
+              <div style={{
+                fontSize: '14px',
+                color: '#FFA500',
+                fontWeight: '900',
+                marginBottom: '10px',
+                textAlign: 'center',
+                padding: '10px 15px',
+                background: 'linear-gradient(135deg, #FFA50033 0%, #FFD70022 100%)',
+                borderRadius: '15px',
+                border: '3px solid #FFA500',
+                animation: 'pulse 1s ease-in-out infinite'
+              }}>
+                {currentLang === 'ar' ? '✨ الآن اختر المنطقة المناسبة!' : '✨ Now choose the right zone!'}
+              </div>
+            )}
+
             <div className="drop-zones">
               <div 
                 className="drop-zone safe"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, 'safe')}
-                onTouchEnd={(e) => handleTouchEnd(e, 'safe')}
+                onClick={() => handleZoneClick('safe')}
+                style={{
+                  cursor: selectedCard ? 'pointer' : 'default',
+                  borderStyle: selectedCard ? 'solid' : 'dashed'
+                }}
               >
                 <div className="zone-title safe">{lang.safeZone}</div>
                 <div className="cards-container">
@@ -1060,7 +1083,11 @@ function SortGame() {
                 className="drop-zone"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, 'waiting')}
-                onTouchEnd={(e) => handleTouchEnd(e, 'waiting')}
+                onClick={() => handleZoneClick('waiting')}
+                style={{
+                  cursor: selectedCard ? 'pointer' : 'default',
+                  borderStyle: selectedCard ? 'solid' : 'dashed'
+                }}
               >
                 <div className="zone-title waiting">{lang.waitingZone}</div>
                 <div className="cards-container">
@@ -1072,7 +1099,11 @@ function SortGame() {
                 className="drop-zone fake"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, 'fake')}
-                onTouchEnd={(e) => handleTouchEnd(e, 'fake')}
+                onClick={() => handleZoneClick('fake')}
+                style={{
+                  cursor: selectedCard ? 'pointer' : 'default',
+                  borderStyle: selectedCard ? 'solid' : 'dashed'
+                }}
               >
                 <div className="zone-title fake">{lang.fakeZone}</div>
                 <div className="cards-container">
@@ -1169,7 +1200,6 @@ function SortGame() {
         )}
       </div>
 
-   
     </div>
   );
 }
