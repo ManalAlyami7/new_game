@@ -530,6 +530,52 @@ body {
     75% { transform: scale(1.2) rotate(10deg); }
 }
 
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        box-shadow: 0 0 20px currentColor;
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 40px currentColor;
+        transform: scale(1.03);
+    }
+}
+
+@keyframes confettiRain {
+    0% { 
+        opacity: 0;
+        transform: translateY(-50px) rotate(0deg);
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { 
+        opacity: 0;
+        transform: translateY(50px) rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+    20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+@keyframes fallDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
 .result-title {
     font-size: 26px;
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
@@ -784,6 +830,87 @@ function CodeGame() {
     }
   }, [timeLeft, screen, attemptsLeft]);
 
+  const getPerformanceLevel = () => {
+    const accuracy = score > 0 ? 'success' : 'failed';
+    const timeUsed = 90 - timeLeft;
+    
+    if (accuracy === 'success') {
+      if (attemptsLeft === 3) return 'perfect'; // First try
+      if (attemptsLeft === 2) return 'excellent'; // Second try
+      return 'good'; // Third try
+    }
+    return 'tryAgain';
+  };
+
+  const getPerformanceData = () => {
+    const level = getPerformanceLevel();
+    
+    const performances = {
+      ar: {
+        perfect: {
+          emoji: '🏆',
+          title: 'عبقري! من أول محاولة!',
+          message: 'أنت محترف في حل الألغاز! 🎯',
+          color: '#FFD700',
+          confetti: true
+        },
+        excellent: {
+          emoji: '🌟',
+          title: 'ممتاز! من المحاولة الثانية!',
+          message: 'مهاراتك رائعة في التحليل! 💪',
+          color: '#4CAF50',
+          confetti: true
+        },
+        good: {
+          emoji: '✅',
+          title: 'أحسنت! نجحت!',
+          message: 'استمر في التدريب لتصبح أسرع! 🚀',
+          color: '#2196F3',
+          confetti: false
+        },
+        tryAgain: {
+          emoji: '🎯',
+          title: 'جرب مرة أخرى!',
+          message: 'لا تيأس! كل محاولة تجعلك أقوى! 💪',
+          color: '#FF9800',
+          confetti: false
+        }
+      },
+      en: {
+        perfect: {
+          emoji: '🏆',
+          title: 'Genius! First Try!',
+          message: 'You\'re a puzzle master! 🎯',
+          color: '#FFD700',
+          confetti: true
+        },
+        excellent: {
+          emoji: '🌟',
+          title: 'Excellent! Second Try!',
+          message: 'Your analytical skills are amazing! 💪',
+          color: '#4CAF50',
+          confetti: true
+        },
+        good: {
+          emoji: '✅',
+          title: 'Well Done! You Solved It!',
+          message: 'Keep practicing to get faster! 🚀',
+          color: '#2196F3',
+          confetti: false
+        },
+        tryAgain: {
+          emoji: '🎯',
+          title: 'Try Again!',
+          message: 'Don\'t give up! Every try makes you stronger! 💪',
+          color: '#FF9800',
+          confetti: false
+        }
+      }
+    };
+
+    return performances[currentLang][level];
+  };
+
   const startGame = () => {
     const randomPuzzle = generateRandomPuzzle();
     setCurrentPuzzle(randomPuzzle);
@@ -801,15 +928,48 @@ function CodeGame() {
       const attemptBonus = attemptsLeft * 200;
       setScore(timeBonus + attemptBonus + 500);
       setFeedback('correct');
+      
+      // Create celebration particles
+      createCelebrationEffect();
+      
       setTimeout(() => setScreen('finish'), 2000);
     } else {
       setAttemptsLeft(attemptsLeft - 1);
       setFeedback('wrong');
+      
+      // Shake the input on wrong answer
+      const input = document.querySelector('.code-input');
+      if (input) {
+        input.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+          input.style.animation = '';
+        }, 500);
+      }
+      
       if (attemptsLeft - 1 === 0) {
         setTimeout(() => setScreen('finish'), 2000);
       } else {
         setTimeout(() => setFeedback(''), 2000);
       }
+    }
+  };
+
+  const createCelebrationEffect = () => {
+    const emojis = ['🎉', '✨', '🌟', '💫', '⭐'];
+    for (let i = 0; i < 15; i++) {
+      setTimeout(() => {
+        const particle = document.createElement('div');
+        particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        particle.style.position = 'fixed';
+        particle.style.left = (Math.random() * window.innerWidth) + 'px';
+        particle.style.top = '-50px';
+        particle.style.fontSize = '30px';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '9999';
+        particle.style.animation = `fallDown ${2 + Math.random()}s ease-out forwards`;
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 3000);
+      }, i * 100);
     }
   };
 
@@ -908,17 +1068,52 @@ function CodeGame() {
 
         {screen === 'finish' && (
           <div className="finish-screen">
-            <div className="result-hero">{lang.resultHero}</div>
-            <div className="result-title">{lang.resultTitle}</div>
+            <div className="result-hero" style={{
+              fontSize: '80px',
+              animation: getPerformanceData().confetti ? 'celebrate 1s ease, bounce 0.5s ease infinite' : 'celebrate 1s ease'
+            }}>
+              {getPerformanceData().emoji}
+            </div>
+            <div className="result-title" style={{
+              background: `linear-gradient(135deg, ${getPerformanceData().color} 0%, ${getPerformanceData().color}dd 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontSize: '30px',
+              textShadow: getPerformanceData().confetti ? `0 0 30px ${getPerformanceData().color}88` : 'none'
+            }}>
+              {getPerformanceData().title}
+            </div>
+            <div style={{
+              fontSize: '14px',
+              color: '#2d3748',
+              fontWeight: '800',
+              marginBottom: '12px',
+              textAlign: 'center',
+              padding: '10px 18px',
+              background: `linear-gradient(135deg, ${getPerformanceData().color}22 0%, ${getPerformanceData().color}11 100%)`,
+              borderRadius: '15px',
+              border: `2px solid ${getPerformanceData().color}44`,
+              animation: getPerformanceData().confetti ? 'glow 2s ease-in-out infinite' : 'none'
+            }}>
+              {getPerformanceData().message}
+            </div>
 
             <div className="result-stats">
-              <div className="stat-card">
-                <div className="stat-icon">⏱️</div>
+              <div className="stat-card" style={{
+                background: (90 - timeLeft) < 30 ? 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)' : 'linear-gradient(135deg, #fff 0%, #f8f9fa 100%)',
+                border: (90 - timeLeft) < 30 ? '2px solid #FFD700' : '2px solid #e9ecef'
+              }}>
+                <div className="stat-icon">{(90 - timeLeft) < 30 ? '⚡' : '⏱️'}</div>
                 <div className="stat-value">{90 - timeLeft}s</div>
                 <div className="stat-label">{lang.timeUsed}</div>
               </div>
-              <div className="stat-card">
-                <div className="stat-icon">🎯</div>
+              <div className="stat-card" style={{
+                background: attemptsLeft === 3 ? 'linear-gradient(135deg, #FFD70022 0%, #FFA50011 100%)' : 'linear-gradient(135deg, #fff 0%, #f8f9fa 100%)',
+                border: attemptsLeft === 3 ? '2px solid #FFD700' : '2px solid #e9ecef',
+                animation: attemptsLeft === 3 ? 'glow 2s ease-in-out infinite' : 'none'
+              }}>
+                <div className="stat-icon">{attemptsLeft === 3 ? '💯' : '🎯'}</div>
                 <div className="stat-value">{3 - attemptsLeft + 1}</div>
                 <div className="stat-label">{lang.attemptsUsed}</div>
               </div>
@@ -928,6 +1123,16 @@ function CodeGame() {
                 <div className="stat-label">{lang.finalScore}</div>
               </div>
             </div>
+
+            {getPerformanceData().confetti && (
+              <div style={{
+                fontSize: '35px',
+                marginBottom: '10px',
+                animation: 'confettiRain 3s ease-out infinite'
+              }}>
+                🎊 🎉 ✨ 🌟 💫
+              </div>
+            )}
 
             {currentPuzzle && (
               <div className="clues-box" style={{marginBottom: '12px'}}>
@@ -967,6 +1172,7 @@ function CodeGame() {
         )}
       </div>
 
+     
     </div>
   );
 }
